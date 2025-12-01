@@ -10,8 +10,17 @@ function setup() {
 function draw() {
   background(0);
   wizard();
+  kight();
 }
+// class Wizard{
+// constructor(){
+//   x = width/2
+//   y = height/2
+//   health = 100
+//   damage = 6 
+// }
 
+ 
 
 function wizard(){
   // will create the wizard character
@@ -22,5 +31,12 @@ function wizard(){
   circle(width/2, height/2 + 5, 60);
 
   fill(220);
-  arc(width/2, height/2, 60, 30, -1, 3);
+  arc(width/2, height/2, 15, 30, -1, 2);
+  arc(width/2, height/2, 15, 30, 1, 1);
+  //triangle()
+}
+// }
+
+function kight(){
+fill(150,150,150);
 }
