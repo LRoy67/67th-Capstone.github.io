@@ -17,6 +17,7 @@ function draw() {
   knightguy.display();
   
   archer();
+  bow();
 }
 // class Wizard{
 // constructor(){
@@ -130,7 +131,31 @@ function archer(){
   fill(0, 100, 0);
   rect(width/2 - 30, height/2 - 20, 60, 10)
   
-  
+  }
+
+  function bow(){
+    // creates the archer's bow
+    fill(212, 175, 55);
+
+    triangle(
+      width/2 + 5, height/2 + 10,   // right side
+      width/2 - 7, height/2 - 15,  // middle
+      width/2 + 18, height/2 + 10);// left side
+
+    triangle(
+      width/2 + 5, height/2 + 45,   // right side
+      width/2 - 7, height/2 + 70,  // middle
+      width/2 + 18, height/2 + 45);// left side
+    
+    fill(188, 198, 204);
+    circle(width/2 + 10, height/2 + 55, 10)
+    circle(width/2 + 10, height/2, 10)
+    
+    fill(255);
+    rect(width/2 - 5, height/2 - 6, 3, 65)
+
+    fill(0);
+    rect(width/2 + 15, height/2 + 10, 3, 35)
   }
 
 
