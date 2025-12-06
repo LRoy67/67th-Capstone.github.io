@@ -5,7 +5,8 @@ let character;
 let character2; //archer
 let character3; // wizard
 let character4; // assasin 
-
+let arrowcase =0 
+let xshift
 function setup() {
   createCanvas(windowWidth, windowHeight);
   character = new Knight()
@@ -16,25 +17,17 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(190);
 
 
   // character.display(); //knight
-  // character2.display(); // archer
+  character2.display(); // archer
   // character3.display(); // wizard
   // character4.display(); // assasin 
-  
 }
 
-// constructor(){
-//   x = width/2
-//   y = height/2
-//   health = 100
-//   damage = 6 
-// }
-
  
-// start of characters
+// start of characters We should move to diffrent file once done fully 
 class Knight{ //character 1
   constructor(){
   this.x = width/2;
@@ -176,22 +169,21 @@ class Knight{ //character 1
   }
 
 }
-
-  
-
-  class Archer{ //character 2
+class Archer{ //character 2
     constructor(){
       this.x = width/2;
       this.y = height/2
+      this.arrowx = this.x + 14
+      this.arrowy = this.y +38
     }
   
     display(){
       this.quilt()
       this.body();
       this.strap()
+      this.arrow()
       this.bow();
-
-      
+    
     }
     body(){
       push()
@@ -227,6 +219,8 @@ class Knight{ //character 1
       translate(this.x + 35 ,this.y + 20)
       rotate(45)
       // creates the archer's bow
+      fill(255);
+      rect( 5,  - 6, 3, 65)
       fill(212, 175, 55);
   
       triangle(
@@ -243,10 +237,9 @@ class Knight{ //character 1
       circle( 10, 55, 10)
       circle( 10,0, 10)
       
-      fill(255);
-      rect( 5,  - 6, 3, 65)
+      
   
-      fill(0);
+      fill("#c78f6aff");
       rect( 15, 10, 3, 35)
       pop()
     }
@@ -255,7 +248,7 @@ class Knight{ //character 1
       translate(this.x-36,this.y+ 35)
       rotate(-25)
       fill(0)
-      push()
+      push() //arrows
       strokeWeight(3)
       stroke(164,116,73)
       line(3,0,3,-10)
@@ -275,7 +268,8 @@ class Knight{ //character 1
       fill(128,126,120)
       triangle(6,-8,18,-8,12,-15)
       pop()
-      fill(98,74,46)
+
+      fill(98,74,46) //rectangle
       rect(0,0,15,30)
       
       pop()
@@ -289,11 +283,97 @@ class Knight{ //character 1
       rect(0,0,48,6)
       pop()
     }
-   
+
+  arrow(){
+    switch(arrowcase){ //arrow in bow
+      case 0:
+        push()
+        translate(this.x +14,this.y+38)
+        rotate(-45)
+        strokeWeight(0)
+        rect(-4,-1,8,4)
+        triangle(-4,3,
+          -1,7,
+          -1,3
+        )
+        triangle(4,3,
+          1,7,
+          1,3
+        )
+        strokeWeight(0.1)
+        for(let i = -0.75; i< 3; i+= 0.5){
+          line(-4,i,-1,i)
+        }
+        for(let i = -0.75; i< 3; i+= 0.5){
+          line(1,i,4,i)
+        }
+        xshift = -4;
+        for(let i = 3.25; i< 7; i+= 0.5){
+          line(xshift,i,-1,i)
+          xshift += 0.4
+        }
+        xshift = 4;
+        for(let i = 3.25; i< 7; i+= 0.5){
+          line(1,i,xshift,i)
+          xshift -= 0.4
+        }
+        strokeWeight(3)
+        stroke(164,116,73)
+        line(0,0,0,30)
+        strokeWeight(0)
+        fill(128,126,120)
+        triangle(-4,25,
+          4,25,
+          0,35
+        )
+        pop()
+        break
+      case 1:
+        push()
+        translate(this.arrowx,this.arrowy)
+        rotate(-90)
+        strokeWeight(0)
+        rect(-4,-1,8,4)
+        triangle(-4,3,
+          -1,7,
+          -1,3
+        )
+        triangle(4,3,
+          1,7,
+          1,3
+        )
+        strokeWeight(0.1)
+        for(let i = -0.75; i< 3; i+= 0.5){
+          line(-4,i,-1,i)
+        }
+        for(let i = -0.75; i< 3; i+= 0.5){
+          line(1,i,4,i)
+        }
+        xshift = -4;
+        for(let i = 3.25; i< 7; i+= 0.5){
+          line(xshift,i,-1,i)
+          xshift += 0.4
+        }
+        xshift = 4;
+        for(let i = 3.25; i< 7; i+= 0.5){
+          line(1,i,xshift,i)
+          xshift -= 0.4
+        }
+        strokeWeight(3)
+        stroke(164,116,73)
+        line(0,0,0,30)
+        strokeWeight(0)
+        fill(128,126,120)
+        triangle(-4,25,
+          4,25,
+          0,35
+        )
+        pop()
+        break
+    }
   }
-
-
-  
+   
+}
 class Wizard{ // character 3
   // will create the wizard character
 constructor(){
@@ -359,10 +439,7 @@ staff(){
       pop()
   }
   
-  }
-
-
-
+}
 class Assassin{ // character 4 
   constructor(){
   this.x = width/2;
