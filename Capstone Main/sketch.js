@@ -76,15 +76,32 @@ class Knight{ //character 1
       
 
       
+   
+      
+
       fill(255, 204, 153)
       circle(13,-3,22)
       fill(this.silver)
       circle( -13,-10,30)
       fill(255, 204, 153)
       circle(-13,-3,21)
-      fill(250)
-      circle(13,-3,10)
-      circle(-13,-3,10)
+      fill(this.silver)
+      arc(0, 6, 53, 35, -10, 190, PIE, 2)
+      push()
+      strokeWeight(1)
+      // line(0,6,5,12)
+      // line(0,6,-5,12)
+      for(let i = 2; i<20;i+=4){
+      line(i,7,i+6,15)
+      line(-i,7,-i-6,15)
+      }
+      pop()
+      fill(250) //eyes
+      ellipse(13,-3,10,8)
+      ellipse(-13,-3,10,8)
+      fill("#7d5d04b0")
+      circle(13,-3,5)
+      circle(-13,-3,5)
       fill(0)
       circle(13,-3,3)
       circle(-13,-3,3)
@@ -110,37 +127,46 @@ class Knight{ //character 1
   rect(-1,-4,7,-29)
   
   triangle(
-    -1,-32,
-    6,-32,
+    -1.2,-32,
+    6.2,-32,
     2.5,-43
   )
   strokeWeight(0.5)
   line(2.5,-4,2.5,-32)
   strokeWeight(0)
   fill("#caa906")
-  circle(2.5,22,6)
+  circle(2,20,6)
   pop()
   }
 
   sheild(){
     push()
     strokeWeight(0)
-    translate(this.x -20,this.y + 40)
+    translate(this.x -20,this.y + 35)
     fill("#D4D7D9")
     triangle(-9,-5,34,-5,12,34)
-    triangle(-9,-5,34,-5,12,-34)
+    triangle(-9,-4.9,34,-4.9,12,-34)
     fill("#855e42")
     triangle(-5,-5,30,-5,12,30)
-    triangle(-5,-5,30,-5,12,-30)
+    triangle(-5,-4.9,30,-4.9,12,-30)
     push()
     strokeWeight(1)
+    stroke("#0004ffd5")
     line(12,28,12,-28)
-    line(15,25,15,-25)
-    line(9,25,9,-25)
+    line(15,23,15,-24)
+    line(9,23,9,-24)
+    line(18,16,18,-20)
+    line(6,16,6,-20)
+    line(21,11,21,-16)
+    line(3,10,3,-16)
+    line(24,5,24,-12)
+    line(0,4,0,-11)
+    line(27,-0.8,27,-7.5)
+    line(-3,-1.9,-3,-6.5)
     pop()
     fill("#caa906")
     circle(12,-5,15)
-    fill(225,0,44)
+    fill("#e10a0afc")
     circle(12,-5,8)
     // stroke("#caa906")
     // strokeWeight(2)
