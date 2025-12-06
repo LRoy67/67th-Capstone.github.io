@@ -8,7 +8,7 @@ let character4; // assasin
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  character = new Knight(width/3,height/2)
+  character = new Knight()
   character2 = new Archer();
   character3 = new Wizard();
   character4 = new Assassin();
@@ -21,7 +21,7 @@ function draw() {
 
   // character.display(); //knight
   // character2.display(); // archer
-  character3.display(); // wizard
+  // character3.display(); // wizard
   // character4.display(); // assasin 
   
 }
@@ -36,9 +36,9 @@ function draw() {
  
 // start of characters
 class Knight{ //character 1
-  constructor(x,y){
-    this.x = x
-    this.y = y
+  constructor(){
+  this.x = width/2;
+  this.y = height/2
     this.silver = color("#9fa1a0")
   }
   display(){
@@ -122,7 +122,7 @@ class Knight{ //character 1
   pop()
   }
 
-    sheild(){
+  sheild(){
     push()
     strokeWeight(0)
     translate(this.x -20,this.y + 40)
@@ -132,6 +132,12 @@ class Knight{ //character 1
     fill("#855e42")
     triangle(-5,-5,30,-5,12,30)
     triangle(-5,-5,30,-5,12,-30)
+    push()
+    strokeWeight(1)
+    line(12,28,12,-28)
+    line(15,25,15,-25)
+    line(9,25,9,-25)
+    pop()
     fill("#caa906")
     circle(12,-5,15)
     fill(225,0,44)
@@ -143,22 +149,27 @@ class Knight{ //character 1
     pop()
   }
 
-  }
+}
 
   
 
   class Archer{ //character 2
     constructor(){
-      this.x = 1
+      this.x = width/2;
+      this.y = height/2
     }
   
     display(){
+      this.quilt()
       this.body();
+      this.strap()
       this.bow();
+
+      
     }
     body(){
       push()
-      translate(width/2, height/2)
+      translate(this.x,this.y)
       fill(150,150,150);
       stroke(0)
       strokeWeight(1)
@@ -184,10 +195,11 @@ class Knight{ //character 1
       fill(0, 100, 0);
       rect( - 30,  - 20, 60, 10)
       pop()
-    }
+      }
     bow(){
       push()
-      translate(width/2, height/2)
+      translate(this.x + 35 ,this.y + 20)
+      rotate(45)
       // creates the archer's bow
       fill(212, 175, 55);
   
@@ -212,6 +224,46 @@ class Knight{ //character 1
       rect( 15, 10, 3, 35)
       pop()
     }
+    quilt(){
+      push()
+      translate(this.x-36,this.y+ 35)
+      rotate(-25)
+      fill(0)
+      push()
+      strokeWeight(3)
+      stroke(164,116,73)
+      line(3,0,3,-10)
+      strokeWeight(0)
+      fill(128,126,120)
+      triangle(-2,-8,8,-8,3,-15)
+      strokeWeight(3)
+      stroke(164,116,73)
+      line(8,0,8,-10)
+      strokeWeight(0)
+      fill(128,126,120)
+      triangle(2,-8,13,-8,8,-15)
+      strokeWeight(3)
+      stroke(164,116,73)
+      line(12,0,12,-10)
+      strokeWeight(0)
+      fill(128,126,120)
+      triangle(6,-8,18,-8,12,-15)
+      pop()
+      fill(98,74,46)
+      rect(0,0,15,30)
+      
+      pop()
+    }
+    strap(){
+      push()
+      strokeWeight(0)
+      translate(this.x-22,this.y+ 52)
+      rotate(-28)
+      fill(98,74,46)
+      rect(0,0,48,6)
+      pop()
+    }
+   
   }
 
 
@@ -219,22 +271,23 @@ class Knight{ //character 1
 class Wizard{ // character 3
   // will create the wizard character
 constructor(){
-  this.size = 1
+  this.x = width/2;
+  this.y = height/2
 }
 display(){
-  // this.body()
+  this.body()
   this.staff()
 }
 body(){
+  push()
+  translate(this.x,this.y)
   stroke(0)
   strokeWeight(1)
   fill(21, 101, 192);
-  rect(width/2 - 19.5, height/2 + 25, 40, 50)
+  rect( - 19.5, 25, 40, 50)
   
   fill(255, 204, 153);
-  circle(width/2, height/2 + 5, 60);
-  push();
-  translate(width/2,height/2);
+  circle(0,  5, 60);
   rotate(-20);
   fill(120,40,200);
   ellipse(0, -15, 80, 30);
@@ -253,7 +306,8 @@ body(){
 staff(){
     // makes the wizards wand
     push()
-    translate(width/2, height/2)
+    translate(this.x + 40 ,this.y)
+    rotate(20)
     strokeWeight(1);
     stroke(0);
     fill(139, 99,	73);
@@ -285,17 +339,18 @@ staff(){
 
 class Assassin{ // character 4 
   constructor(){
-    this.size = 0
+  this.x = width/2;
+  this.y = height/2
   }
   // will create the assassin
 display(){
   this.body();
-  // this.dagger();
+  this.dagger();
 }
   
   body(){
     push()
-    translate(width/2, height/2)
+    translate(this.x,this.y)
     stroke(0)
     strokeWeight(1)
     fill(220, 20, 60);
@@ -324,9 +379,30 @@ display(){
     pop()
 }
   dagger(){
-    push()
-    translate(width/2, height/2)
-    pop()
+  push()
+  translate(this.x +23,this.y +47 )
+  rotate(40)
+  fill("#97572b")
+  rect(0,0,5,12)
+  strokeWeight(1)
+  for(let lines = 0; lines < 3; lines ++){
+    line(0,lines * 4 + 2,5, lines*4 + 2);
+  }
+  fill("#caa906")
+  strokeWeight(0)
+  rect(-2,0,11,-4)
+  fill("#c4c4c4")
+  rect(-1,-4,7,-15)
+  
+  triangle(
+    -1,-19,
+    6,-19,
+    2.5,-27
+  )
+  strokeWeight(0.5)
+  line(2.5,-4,2.5,-19)
+  
+  pop()
   }
   }
 // end of characters
