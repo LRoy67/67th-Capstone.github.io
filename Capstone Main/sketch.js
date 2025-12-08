@@ -5,8 +5,8 @@ let character;
 let character2; //archer
 let character3; // wizard
 let character4; // assasin 
-let arrowcase =0 
-let xshift
+let arrowcase =0 ;
+let xshift;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   character = new Knight()
