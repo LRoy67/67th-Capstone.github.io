@@ -21,7 +21,7 @@ function draw() {
 
 
   // character.display(); //knight
-  character2.display(); // archer
+  // character2.display(); // archer
   // character3.display(); // wizard
   // character4.display(); // assasin 
 }
