@@ -1,5 +1,5 @@
 // Capstone Project
-// Logan Roy
+// Logan and Troy
 // December 1, 2025
 let character;
 let character2; //archer
@@ -7,19 +7,21 @@ let character3; // wizard
 let character4; // assasin 
 let arrowcase =0 ;
 let xshift;
+let map;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   character = new Knight()
   character2 = new Archer();
   character3 = new Wizard();
   character4 = new Assassin();
+  map = new MapFiller();
   angleMode(DEGREES)
 }
 
 function draw() {
-  background(190);
-
-
+  background(150);
+  //robe();
+  map.display()
   // character.display(); //knight
   // character2.display(); // archer
   // character3.display(); // wizard
@@ -376,40 +378,40 @@ class Archer{ //character 2
 }
 class Wizard{ // character 3
   // will create the wizard character
-constructor(){
+  constructor(){
   this.x = width/2;
   this.y = height/2
-}
-display(){
-  this.body()
-  this.staff()
-}
-body(){
-  push()
-  translate(this.x,this.y)
-  stroke(0)
-  strokeWeight(1)
-  fill(21, 101, 192);
-  rect( - 19.5, 25, 40, 50)
-  
-  fill(255, 204, 153);
-  circle(0,  5, 60);
-  rotate(-20);
-  fill(120,40,200);
-  ellipse(0, -15, 80, 30);
-  fill(120,40,200);
-  triangle(
-      -20,   -10,   // right side
-    0,  -80,  // middle
-     20, -10);// left side
-  strokeWeight(3);
-  stroke(60);
-  fill(0);
-  rect(-18, -23, 36, 10);
-  stroke(0);
-  pop();
   }
-staff(){
+  display(){
+    this.body()
+    this.staff()
+  }
+  body(){
+    push()
+    translate(this.x,this.y)
+    stroke(0)
+    strokeWeight(1)
+    fill(21, 101, 192);
+    rect( - 19.5, 25, 40, 50)
+    
+    fill(255, 204, 153);
+    circle(0,  5, 60);
+    rotate(-20);
+    fill(120,40,200);
+    ellipse(0, -15, 80, 30);
+    fill(120,40,200);
+    triangle(
+        -20,   -10,   // right side
+      0,  -80,  // middle
+      20, -10);// left side
+    strokeWeight(3);
+    stroke(60);
+    fill(0);
+    rect(-18, -23, 36, 10);
+    stroke(0);
+    pop();
+  }
+  staff(){
     // makes the wizards wand
     push()
     translate(this.x + 40 ,this.y)
@@ -431,7 +433,7 @@ staff(){
        2.5,  20, 
        - 3,  15);
     
-    rect( - 2.5, 10, 10, 5)
+    rect( - 2.5, 9, 10, 7)
     triangle(
       8,  10, 
        2.5,  5, 
@@ -440,16 +442,22 @@ staff(){
   }
   
 }
+function robe(){
+  fill(21, 101, 192);
+  arc(width/2 - 18, height/2 + 65, 60, 20, 10, -15, PIE);
+  circle(width/2 - 25, height/2 + 25, 33);
+}
+// pretty pwease add to lil wiz
 class Assassin{ // character 4 
   constructor(){
   this.x = width/2;
   this.y = height/2
   }
   // will create the assassin
-display(){
+  display(){
   this.body();
   this.dagger();
-}
+  }
   
   body(){
     push()
@@ -480,7 +488,7 @@ display(){
     rect( 6, 40, 15, 20);
     rect( - 20,  40, 15, 20);
     pop()
-}
+  }
   dagger(){
   push()
   translate(this.x +23,this.y +47 )
@@ -509,3 +517,43 @@ display(){
   }
   }
 // end of characters
+
+
+// start of locations
+class MapFiller{
+  constructor(){
+    
+  }
+  
+  display(){
+    this.mapfill1()
+  }
+  
+  mapfill1(){
+    push()
+    strokeWeight(0)
+    fill(212,190,144)
+  
+    rect(0,0,width/8,height)
+    rect(width,0,-width/8,height)
+    push()
+    translate(width/8-9,height/2)
+    rotate(10)
+    rect(0,0,100,190)
+    rotate(-300)
+    pop()
+    push()
+    translate(width/8-90,height/2-90)
+    rotate(-30)
+    rect(0,0,100,190)
+    pop()
+    push()
+    translate(width/8,height-21)
+    rotate(-155)
+    rect(-10,0,-30,310)
+    pop()
+    pop()
+    
+  }
+  
+}
