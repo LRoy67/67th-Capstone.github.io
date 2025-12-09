@@ -20,11 +20,11 @@ function setup() {
 
 function draw() {
   background(150);
-  //robe();
   map.display()
+  holyBlast();
   // character.display(); //knight
   // character2.display(); // archer
-  // character3.display(); // wizard
+  character3.display(); // wizard
   // character4.display(); // assasin 
 }
 
@@ -379,12 +379,20 @@ class Archer{ //character 2
 class Wizard{ // character 3
   // will create the wizard character
   constructor(){
-  this.x = width/2;
+  this.x = width/3;
   this.y = height/2
+  this.fireballx = this.x+75
+  this.firebally = this.y +10
+  this.iceballx = this.x
+  this.icebally = this.y +300
   }
   display(){
+    this.robe()
     this.body()
     this.staff()
+    // this.fireball()
+    this.icespell()
+
   }
   body(){
     push()
@@ -440,14 +448,56 @@ class Wizard{ // character 3
        - 3,  10);
       pop()
   }
-  
-}
-function robe(){
-  fill(21, 101, 192);
-  arc(width/2 - 18, height/2 + 65, 60, 20, 10, -15, PIE);
-  circle(width/2 - 25, height/2 + 25, 33);
-}
+  robe(){
+    push()
+    strokeWeight(1)
+    translate(this.x,this.y)
+    fill(21, 101, 192);
+    arc( - 18, 65, 60, 20, 10, -15, PIE);
+    circle( - 25,  25, 33);
+    pop()
 // pretty pwease add to lil wiz
+  }
+
+  fireball(){
+    push()
+    translate(this.fireballx,this.firebally)
+    fill(220,200,0)
+    circle(-10,0,50)
+    fill(220,140,50)
+    circle(-8,0,45)
+    fill(220,100,0)
+    circle(-6,0,40)
+    fill(220,60,0)
+    circle(-3,0,35)
+    fill(200,0,0)
+    circle(0,0,30)
+    fill(220,0,0)
+    circle()
+    fill(180,0,0)
+    circle(2,0,20)
+  }
+
+  icespell(){
+    push()
+    strokeWeight(0)
+    translate(this.iceballx,this.icebally)
+    fill(0,200,225)
+    circle(-3,0,35)
+    triangle(-12,15,-17,0,-24,12)
+    triangle(-12,-15,-17,0,-24,-12)
+    triangle(-12,15,-17,-13,-32,0)
+    fill(225,225,225)
+    circle(0,0,30)
+    triangle(0,13,-5,0,-12,13)
+    triangle(0,-13,-5,0,-12,-13)
+    triangle(0,13,-5,-13,-24,0)
+    
+    pop()
+    
+  }
+
+}
 class Assassin{ // character 4 
   constructor(){
   this.x = width/2;
@@ -515,8 +565,51 @@ class Assassin{ // character 4
   
   pop()
   }
-  }
+}
 // end of characters
+
+function tree(){
+  // your power is... greeeeeeeeeeeeeeeeeeeeen
+  // and makes a tree
+  strokeWeight(0);
+  fill(0, 185, 0)
+  //leafs
+  circle(width/2 - 35, height/2, 40);
+  circle(width/2 + 35, height/2, 40);
+  circle(width/2, height/2 - 35, 40);
+  circle(width/2 + 25, height/2 - 25, 40);
+  circle(width/2 - 25, height/2 + 25, 40);
+  circle(width/2 - 25, height/2 - 25, 40);
+  circle(width/2 + 25, height/2 + 25, 40);
+  
+  //trunk
+  fill(164,116,73);
+  rect(width/2 - 10, height/2 + 35, 20, 80)
+  
+
+  //main tree
+  fill(0, 185, 0)
+  circle(width/2, height/2, 80);
+
+}
+
+function holyBlast(){
+  // spell for wiz
+  strokeWeight(2);
+  noFill();
+  ellipse(width/2, height/2, 70, 80);
+  strokeWeight(2);
+  ellipse(width/2, height/2, 30, 30);
+  strokeWeight(1);
+  fill(255, 253, 126)
+  rect(width/2, height/2 - 10, 40, 20);
+  push();
+  translate(width/2, height/2);
+  noFill();
+  rect(0, 0, 20, 20);
+  rotate();
+  pop();
+}
 
 
 // start of locations
@@ -548,9 +641,14 @@ class MapFiller{
     rect(0,0,100,190)
     pop()
     push()
-    translate(width/8,height-21)
+    translate(width/8-70,height-21)
     rotate(-155)
-    rect(-10,0,-30,310)
+    rect(0,0,300,310)
+    pop()
+    push()
+    translate(width/8*7,height/4)
+    rotate(25)
+    rect(0,0,400,140)
     pop()
     pop()
     
