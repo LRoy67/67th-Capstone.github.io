@@ -5,7 +5,7 @@ let character;
 let character2; //archer
 let character3; // wizard
 let character4; // assasin 
-let arrowcase =0 ;
+let arrowcase = 0 ;
 let xshift;
 let mapload;
 function setup() {
@@ -21,14 +21,16 @@ function setup() {
 function draw() {
   background(150);
   mapload.display()
-  // holyBlast();
+  tree(); 
   // character.display(); //knight
   // character2.display(); // archer
   // character3.display(); // wizard
   // character4.display(); // assasin 
 }
 
- 
+ function mousePressed(){
+  character3.shotx +=10
+ }
 // start of characters We should move to diffrent file once done fully 
 class Knight{ //character 1
   constructor(){
@@ -440,45 +442,45 @@ class Archer{ //character 2
   
     pop()
     
-}
-icearrow(){
-  push()
-  translate(this.arrowx,this.arrowy)
-  rotate(-90)
-  strokeWeight(0)
-  rect(-4,-1,8,4)
-  triangle(-4,3,
-    -1,7,
-    -1,3
-  )
-  triangle(4,3,
-    1,7,
-    1,3
-  )
-  strokeWeight(0.1)
-  for(let i = -0.75; i< 3; i+= 0.5){
-    line(-4,i,-1,i)
   }
-  for(let i = -0.75; i< 3; i+= 0.5){
-    line(1,i,4,i)
-  }
-  xshift = -4;
-  for(let i = 3.25; i< 7; i+= 0.5){
-    line(xshift,i,-1,i)
-    xshift += 0.4
-  }
-  xshift = 4;
-  for(let i = 3.25; i< 7; i+= 0.5){
-    line(1,i,xshift,i)
-    xshift -= 0.4
-  }
-  strokeWeight(3)
-  stroke(164,116,73)
-  line(0,0,0,30)
-  strokeWeight(0)
-  fill(128,126,120)
-  fill(0,200,225)
-  push()
+  icearrow(){
+   push()
+    translate(this.arrowx,this.arrowy)
+    rotate(-90)
+    strokeWeight(0)
+    rect(-4,-1,8,4)
+    triangle(-4,3,
+      -1,7,
+      -1,3
+    )
+    triangle(4,3,
+      1,7,
+      1,3
+    )
+    strokeWeight(0.1)
+    for(let i = -0.75; i< 3; i+= 0.5){
+      line(-4,i,-1,i)
+    }
+    for(let i = -0.75; i< 3; i+= 0.5){
+      line(1,i,4,i)
+    }
+    xshift = -4;
+    for(let i = 3.25; i< 7; i+= 0.5){
+      line(xshift,i,-1,i)
+      xshift += 0.4
+    }
+    xshift = 4;
+    for(let i = 3.25; i< 7; i+= 0.5){
+      line(1,i,xshift,i)
+      xshift -= 0.4
+    }
+    strokeWeight(3)
+    stroke(164,116,73)
+    line(0,0,0,30)
+    strokeWeight(0)
+    fill(128,126,120)
+    fill(0,200,225)
+    push()
     triangle(5,25,-5,25,0,10)
     triangle(0,25,5,25,6,13)
     triangle(0,25,-5,25,-6,13)
@@ -506,6 +508,10 @@ class Wizard{ // character 3
   this.firebally = this.y +10
   this.iceballx = this.x+57
   this.icebally = this.y +10
+  this.blastx = this.x+60
+  this.blasty = this.y+10;
+  this.shotx = this.blastx;
+  this.shoty= this.blasty;
   }
   display(){
     this.robe()
@@ -513,6 +519,7 @@ class Wizard{ // character 3
     this.staff()
     // this.fireball()
     // this.icespell()
+    // this.holyBlast()
 
   }
   body(){
@@ -583,20 +590,23 @@ class Wizard{ // character 3
   fireball(){
     push()
     translate(this.fireballx,this.firebally)
-    fill(220,200,0)
-    circle(-10,0,50)
-    fill(220,140,50)
-    circle(-8,0,45)
-    fill(220,100,0)
-    circle(-6,0,40)
-    fill(220,60,0)
+    strokeWeight(0)
+    fill(225,180,0)
     circle(-3,0,35)
-    fill(200,0,0)
+    triangle(-12,15,-17,0,-24,12)
+    triangle(-12,-15,-17,0,-24,-12)
+    triangle(-12,15,-17,-13,-32,0)
+    fill(200,120,0)
     circle(0,0,30)
-    fill(220,0,0)
-    circle()
-    fill(180,0,0)
-    circle(2,0,20)
+    triangle(0,13,-5,0,-12,13)
+    triangle(0,-13,-5,0,-13,-13)
+    triangle(0,13,-5,-13,-26,0)
+    fill(140,0,0)
+    circle(0,0,25)
+    triangle(0,11,-4,0,-8,12)
+    triangle(0,-11,-4,0,-8,-12)
+    triangle(0,11,-4,-8,-18,0)
+    
   }
 
   icespell(){
@@ -614,6 +624,32 @@ class Wizard{ // character 3
     triangle(0,-13,-5,0,-12,-13)
     triangle(0,13,-5,-13,-24,0)
     
+    pop()
+    
+  }
+  holyBlast(){
+    push()
+    translate(this.blastx,this.blasty)
+    // spell for wiz
+    strokeWeight(2);
+    fill(255, 253, 126)
+    circle(0,0,50)
+    strokeWeight(2);
+    circle(0, 0, 10);
+    strokeWeight(1);
+    
+    push();
+    noFill();
+    for(let i = 0;i < 360 ;i += 360/20){
+    rotate(i);
+    rect(0 , 0 ,18, 18);
+    }
+    pop();
+    pop()
+    fill(255, 253, 126)
+    push()
+    translate(this.shotx,this.shoty)
+    rect(0, -6.5, 35, 13);
     pop()
     
   }
@@ -702,34 +738,13 @@ function tree(){
   circle(width/2 - 25, height/2 + 25, 40);
   circle(width/2 - 25, height/2 - 25, 40);
   circle(width/2 + 25, height/2 + 25, 40);
-  
   //trunk
   fill(164,116,73);
   rect(width/2 - 10, height/2 + 35, 20, 80)
-  
-
   //main tree
   fill(0, 185, 0)
   circle(width/2, height/2, 80);
 
-}
-
-function holyBlast(){
-  // spell for wiz
-  strokeWeight(2);
-  noFill();
-  ellipse(width/2, height/2, 70, 80);
-  strokeWeight(2);
-  ellipse(width/2, height/2, 30, 30);
-  strokeWeight(1);
-  fill(255, 253, 126)
-  rect(width/2, height/2 - 10, 40, 20);
-  push();
-  translate(width/2, height/2);
-  noFill();
-  rect(0, 0, 20, 20);
-  rotate();
-  pop();
 }
 
 
