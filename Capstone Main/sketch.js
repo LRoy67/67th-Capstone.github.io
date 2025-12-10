@@ -7,24 +7,24 @@ let character3; // wizard
 let character4; // assasin 
 let arrowcase =0 ;
 let xshift;
-let map;
+let mapload;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   character = new Knight()
   character2 = new Archer();
   character3 = new Wizard();
   character4 = new Assassin();
-  map = new MapFiller();
+  mapload = new MapFiller();
   angleMode(DEGREES)
 }
 
 function draw() {
   background(150);
-  map.display()
-  holyBlast();
+  mapload.display()
+  // holyBlast();
   // character.display(); //knight
   // character2.display(); // archer
-  character3.display(); // wizard
+  // character3.display(); // wizard
   // character4.display(); // assasin 
 }
 
@@ -176,14 +176,14 @@ class Archer{ //character 2
       this.x = width/2;
       this.y = height/2
       this.arrowx = this.x + 14
-      this.arrowy = this.y +38
+      this.arrowy = this.y+ 38
     }
   
     display(){
       this.quilt()
       this.body();
       this.strap()
-      this.arrow()
+      this.arrowcall()
       this.bow();
     
     }
@@ -286,51 +286,66 @@ class Archer{ //character 2
       pop()
     }
 
-  arrow(){
-    switch(arrowcase){ //arrow in bow
-      case 0:
-        push()
-        translate(this.x +14,this.y+38)
-        rotate(-45)
-        strokeWeight(0)
-        rect(-4,-1,8,4)
-        triangle(-4,3,
-          -1,7,
-          -1,3
-        )
-        triangle(4,3,
-          1,7,
-          1,3
-        )
-        strokeWeight(0.1)
-        for(let i = -0.75; i< 3; i+= 0.5){
-          line(-4,i,-1,i)
-        }
-        for(let i = -0.75; i< 3; i+= 0.5){
-          line(1,i,4,i)
-        }
-        xshift = -4;
-        for(let i = 3.25; i< 7; i+= 0.5){
-          line(xshift,i,-1,i)
-          xshift += 0.4
-        }
-        xshift = 4;
-        for(let i = 3.25; i< 7; i+= 0.5){
-          line(1,i,xshift,i)
-          xshift -= 0.4
-        }
-        strokeWeight(3)
-        stroke(164,116,73)
-        line(0,0,0,30)
-        strokeWeight(0)
-        fill(128,126,120)
-        triangle(-4,25,
-          4,25,
-          0,35
-        )
-        pop()
-        break
-      case 1:
+    arrowcall(){
+      
+      switch(arrowcase){ //arrow in bow
+        case 0:
+          push()
+          translate(this.x +14,this.y+38)
+          rotate(-45)
+          strokeWeight(0)
+          rect(-4,-1,8,4)
+          triangle(-4,3,
+            -1,7,
+            -1,3
+          )
+          triangle(4,3,
+            1,7,
+            1,3
+          )
+          strokeWeight(0.1)
+          for(let i = -0.75; i< 3; i+= 0.5){
+            line(-4,i,-1,i)
+          }
+          for(let i = -0.75; i< 3; i+= 0.5){
+            line(1,i,4,i)
+          }
+          xshift = -4;
+          for(let i = 3.25; i< 7; i+= 0.5){
+            line(xshift,i,-1,i)
+            xshift += 0.4
+          }
+          xshift = 4;
+          for(let i = 3.25; i< 7; i+= 0.5){
+            line(1,i,xshift,i)
+            xshift -= 0.4
+          }
+          strokeWeight(3)
+          stroke(164,116,73)
+          line(0,0,0,30)
+          strokeWeight(0)
+          fill(128,126,120)
+          triangle(-4,25,
+            4,25,
+            0,35
+          )
+          pop()
+          break
+        case 1:
+          this.normarrow()
+          break
+        case 2:
+          this.firearrow()
+          break
+        case 3:
+          this.icearrow()
+          break
+      }
+    }
+    
+
+  normarrow(){
+  
         push()
         translate(this.arrowx,this.arrowy)
         rotate(-90)
@@ -371,10 +386,116 @@ class Archer{ //character 2
           0,35
         )
         pop()
-        break
-    }
+        
   }
-   
+  firearrow(){
+    push()
+    translate(this.arrowx,this.arrowy)
+    rotate(-90)
+    strokeWeight(0)
+    rect(-4,-1,8,4)
+    triangle(-4,3,
+      -1,7,
+      -1,3
+    )
+    triangle(4,3,
+      1,7,
+      1,3
+    )
+    strokeWeight(0.1)
+    for(let i = -0.75; i< 3; i+= 0.5){
+      line(-4,i,-1,i)
+    }
+    for(let i = -0.75; i< 3; i+= 0.5){
+      line(1,i,4,i)
+    }
+    xshift = -4;
+    for(let i = 3.25; i< 7; i+= 0.5){
+      line(xshift,i,-1,i)
+      xshift += 0.4
+    }
+    xshift = 4;
+    for(let i = 3.25; i< 7; i+= 0.5){
+      line(1,i,xshift,i)
+      xshift -= 0.4
+    }
+    strokeWeight(3)
+    stroke(164,116,73)
+    line(0,0,0,30)
+    strokeWeight(0)
+    fill(225,100,50)
+  push()
+    triangle(5,25,-5,25,0,10)
+    triangle(0,25,5,25,6,13)
+    triangle(0,25,-5,25,-6,13)
+    fill(225,60,10)
+    triangle(5,25,-5,25,0,15)
+    triangle(0,25,4,25,5.5,16)
+    triangle(0,25,-4,25,-5.5,16)
+    pop()
+    fill(225,10,0)
+    triangle(-5,25,
+      5,25,
+      0,35)
+  
+    pop()
+    
+}
+icearrow(){
+  push()
+  translate(this.arrowx,this.arrowy)
+  rotate(-90)
+  strokeWeight(0)
+  rect(-4,-1,8,4)
+  triangle(-4,3,
+    -1,7,
+    -1,3
+  )
+  triangle(4,3,
+    1,7,
+    1,3
+  )
+  strokeWeight(0.1)
+  for(let i = -0.75; i< 3; i+= 0.5){
+    line(-4,i,-1,i)
+  }
+  for(let i = -0.75; i< 3; i+= 0.5){
+    line(1,i,4,i)
+  }
+  xshift = -4;
+  for(let i = 3.25; i< 7; i+= 0.5){
+    line(xshift,i,-1,i)
+    xshift += 0.4
+  }
+  xshift = 4;
+  for(let i = 3.25; i< 7; i+= 0.5){
+    line(1,i,xshift,i)
+    xshift -= 0.4
+  }
+  strokeWeight(3)
+  stroke(164,116,73)
+  line(0,0,0,30)
+  strokeWeight(0)
+  fill(128,126,120)
+  fill(0,200,225)
+  push()
+    triangle(5,25,-5,25,0,10)
+    triangle(0,25,5,25,6,13)
+    triangle(0,25,-5,25,-6,13)
+    fill(225,225,225)
+    triangle(5,25,-5,25,0,15)
+    triangle(0,25,4,25,5.5,16)
+    triangle(0,25,-4,25,-5.5,16)
+    pop()
+    fill(0,160,225)
+    triangle(-5,25,
+      5,25,
+      0,35)
+  pop()
+  
+}
+ // green arrow????
+ //Rocket arrow???  
 }
 class Wizard{ // character 3
   // will create the wizard character
@@ -383,15 +504,15 @@ class Wizard{ // character 3
   this.y = height/2
   this.fireballx = this.x+75
   this.firebally = this.y +10
-  this.iceballx = this.x
-  this.icebally = this.y +300
+  this.iceballx = this.x+57
+  this.icebally = this.y +10
   }
   display(){
     this.robe()
     this.body()
     this.staff()
     // this.fireball()
-    this.icespell()
+    // this.icespell()
 
   }
   body(){
@@ -619,10 +740,11 @@ class MapFiller{
   }
   
   display(){
-    this.mapfill1()
+    this.mapfill3()
   }
   
-  mapfill1(){
+  mapfill2(){
+    background(180,145,104)
     push()
     strokeWeight(0)
     fill(212,190,144)
@@ -653,5 +775,25 @@ class MapFiller{
     pop()
     
   }
-  
+  mapfill3(){
+    push()
+    strokeWeight(0)
+    background(17,154,50)
+    fill(212,190,144)
+    triangle(0,height,0,height*0.6,width*0.2,height)
+    triangle(width,height,width,height*0.6,width*0.8,height)
+    let transparant;
+    for(let i = height; i>height*0.7;i--){
+      transparant = map(i,height,height*0.7,400,6)
+      fill(212,190,144,transparant)
+      rect(0,i,width,1)
+    }
+
+
+
+
+
+
+    
+  }
 }
