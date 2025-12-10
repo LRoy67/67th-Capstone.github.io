@@ -788,12 +788,19 @@ class MapFiller{
       fill(212,190,144,transparant)
       rect(0,i,width,1)
     }
+    pop()
+  }
 
-
-
-
-
-
-    
+  mapend(){
+    push()
+    strokeWeight(0)
+    background(17,154,50)
+    fill(180,150,80)
+    rect(width/15,height/10,width/6,height/3)
+    strokeWeight(1)
+    for(let i = height/10; i < height/10+height/3; i+= 6){
+      line(width/15,i,width/15+width/6, i)
+    }
+    pop()
   }
 }
