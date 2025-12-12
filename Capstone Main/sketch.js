@@ -21,22 +21,29 @@ function setup() {
 function draw() {
   background(150);
   mapload.display()
-  tree(); 
-  // character.display(); //knight
+  
+  character.display(); //knight
   // character2.display(); // archer
   // character3.display(); // wizard
   // character4.display(); // assasin 
 }
 
- function mousePressed(){
-  character3.shotx +=10
- }
+function keyPressed(){
+  if(keyCode === 87){
+    character.y -= character.speed *4
+  }
+}
+
 // start of characters We should move to diffrent file once done fully 
 class Knight{ //character 1
   constructor(){
   this.x = width/2;
   this.y = height/2
-    this.silver = color("#9fa1a0")
+  this.silver = color("#9fa1a0")
+  this.health = 110
+  this.sheildhealth = 20
+  this.speed = 0.8
+  this.damage = 19
   }
   display(){
     this.body();
@@ -177,8 +184,10 @@ class Archer{ //character 2
     constructor(){
       this.x = width/2;
       this.y = height/2
-      this.arrowx = this.x + 14
-      this.arrowy = this.y+ 38
+      this.arrowx = this.x + 14; this.arrowy = this.y+ 38
+      this.health = 70;
+      this.speed = 1.25;
+      this.damage = 40
     }
   
     display(){
@@ -504,14 +513,13 @@ class Wizard{ // character 3
   constructor(){
   this.x = width/3;
   this.y = height/2
-  this.fireballx = this.x+75
-  this.firebally = this.y +10
-  this.iceballx = this.x+57
-  this.icebally = this.y +10
-  this.blastx = this.x+60
-  this.blasty = this.y+10;
-  this.shotx = this.blastx;
-  this.shoty= this.blasty;
+  this.fireballx = this.x+75;this.firebally = this.y +10
+  this.iceballx = this.x+57;this.icebally = this.y +10
+  this.blastx = this.x+60;this.blasty = this.y+10;
+  this.shotx = this.blastx;this.shoty= this.blasty;
+  this.health = 90
+  this.damage = 30
+  this.speed = 1
   }
   display(){
     this.robe()
@@ -659,6 +667,9 @@ class Assassin{ // character 4
   constructor(){
   this.x = width/2;
   this.y = height/2
+  this.health = 70
+  this.speed =1.5
+  this.damage = 20
   }
   // will create the assassin
   display(){
@@ -725,37 +736,53 @@ class Assassin{ // character 4
 }
 // end of characters
 
-function tree(){
-  // your power is... greeeeeeeeeeeeeeeeeeeeen
-  // and makes a tree
-  strokeWeight(0);
-  fill(0, 185, 0)
-  //leafs
-  circle(width/2 - 35, height/2, 40);
-  circle(width/2 + 35, height/2, 40);
-  circle(width/2, height/2 - 35, 40);
-  circle(width/2 + 25, height/2 - 25, 40);
-  circle(width/2 - 25, height/2 + 25, 40);
-  circle(width/2 - 25, height/2 - 25, 40);
-  circle(width/2 + 25, height/2 + 25, 40);
-  //trunk
-  fill(164,116,73);
-  rect(width/2 - 10, height/2 + 35, 20, 80)
-  //main tree
-  fill(0, 185, 0)
-  circle(width/2, height/2, 80);
-
-}
 
 
 // start of locations
 class MapFiller{
   constructor(){
-    
+  this.treex = width/2
+  this.treey = height/2
   }
   
   display(){
-    this.mapfill3()
+    // this.mapfill3()
+    this.mapStart()
+    
+  }
+  tree(){
+    // your power is... greeeeeeeeeeeeeeeeeeeeen
+    // and makes a tree
+    push()
+    translate(this.treex,this.treey)
+    strokeWeight(0);
+    fill(164,116,73);
+    rect( - 10+2.5,  25, 15, 70)
+    fill(0, 185, 0)
+    let leafs = 7
+    let rotation = 360/leafs
+    for(let n = 0; n<leafs ; n++){
+      push()
+      rotate(rotation*n)
+      circle(0,25,35)
+      pop()
+    }
+
+    //main tree
+    fill(0, 185, 0)
+    circle(0, 0, 60);
+    pop()
+  }
+
+  mapStart(){
+    background(17,154,50)
+    fill(180,150,80)
+    rect(width*0.7,height * 0.4,width*0.2,height*0.3)
+    triangle(width*0.7,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.7,height*0.698
+    )
+    triangle(width*0.9,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.9,height*0.698
+    )
+
   }
   
   mapfill2(){
@@ -803,6 +830,12 @@ class MapFiller{
       fill(212,190,144,transparant)
       rect(0,i,width,1)
     }
+    this.treex = width/10
+    this.treey = height/8
+    this.tree()
+    this.treex = width * 0.79
+    this.treey = height * 0.3
+    this.tree()
     pop()
   }
 
