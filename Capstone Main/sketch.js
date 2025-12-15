@@ -769,11 +769,14 @@ class MapFiller{
   constructor(){
   this.treex = width/2
   this.treey = height/2
+  this.bushx = width/2
+  this.bushy = height/2
   }
   
   display(){
     // this.mapfill3()
     this.mapStart()
+    this.bush()
     
   }
   tree(){
@@ -802,14 +805,37 @@ class MapFiller{
 
   mapStart(){
     background(17,154,50)
-    fill(180,150,80)
+    fill(180,150,80);
     rect(width*0.7,height * 0.4,width*0.2,height*0.3)
-    triangle(width*0.7,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.7,height*0.698
-    )
-    triangle(width*0.9,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.9,height*0.698
-    )
-
+    triangle(width*0.7,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.7,height*0.698);
+    triangle(width*0.9,height * 0.4,width*0.8,height * 0.4+height*0.15,width*0.9,height*0.698);
   }
+  
+  
+  
+  
+  bush(){
+      // makes a bush
+      push()
+      translate(this.bushx, this.bushy)
+      fill(0, 255, 0)
+      strokeWeight(0);
+      circle(- 120, +20, 40);
+      circle( - 180, +20, 40);
+      circle( - 170, 0, 40);
+      circle( - 150, 0, 40);
+      circle( - 130, 0, 40);
+      rect( - 180, 0, 60, 40);
+      
+      fill(255, 0, 0)
+      for(let y =  14;y < 31; y += 15){
+        for (let i = -187; i < -100; i += 15){
+          circle(i, y, 10);
+        }
+      }
+      pop()
+    }
+  
   
   mapfill2(){
     background(180,145,104)
@@ -876,22 +902,5 @@ class MapFiller{
       line(width/15,i,width/15+width/6, i)
     }
     pop()
-  }
-}
-
-function bush(){
-  // makes a bush
-  fill(0, 255, 0)
-  strokeWeight(0);
-  circle(width/2 - 120, height/2 + 20, 40);
-  circle(width/2 - 180, height/2 + 20, 40);
-  circle(width/2 - 170, height/2, 40);
-  circle(width/2 - 150, height/2, 40);
-  circle(width/2 - 130, height/2, 40);
-  rect(width/2 - 180, height/2, 60, 40);
-  
-  fill(255, 0, 0)
-  for (let i = 0; i < 80; i += 5){
-    circle(width/2 - i, height/2 + i, 10);
   }
 }
