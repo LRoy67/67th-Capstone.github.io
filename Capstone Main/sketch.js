@@ -2,18 +2,16 @@
 // Logan and Troy
 // December 1, 2025
 let character;
-let character2; //archer
-let character3; // wizard
-let character4; // assasin 
+
 let arrowcase = 0 ;
 let xshift;
 let mapload;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   character = new Knight()
-  character2 = new Archer();
-  character3 = new Wizard();
-  character4 = new Assassin();
+  // character = new Archer();
+  // character = new Wizard();
+  // character = new Assassin();
   mapload = new MapFiller();
   angleMode(DEGREES)
 }
@@ -21,16 +19,44 @@ function setup() {
 function draw() {
   background(150);
   mapload.display()
-  
-  character.display(); //knight
-  // character2.display(); // archer
-  // character3.display(); // wizard
-  // character4.display(); // assasin 
+  character.display();
+  if(keyIsDown(87)){
+    moveup()
+  }
+  if(keyIsDown(65)){
+    moveleft()
+  }
+  if(keyIsDown(83)){
+    movedown()
+  }
+  if(keyIsDown(68)){
+    moveright()
+  }
+  bush();
 }
 
-function keyPressed(){
-  if(keyCode === 87){
-    character.y -= character.speed *4
+function mainGUI(){
+  
+}
+
+function moveup(){
+  if(character.y >= 20){
+  character.y -= character.speed *4
+  }
+}
+function moveleft(){
+  if(character.x >= 20){
+  character.x -= character.speed *4
+  }
+}
+function moveright(){
+  if(character.x <= width-70){
+  character.x += character.speed *4
+  }
+}
+function movedown(){
+  if(character.y <= height-70){
+  character.y += character.speed *4
   }
 }
 
@@ -592,8 +618,8 @@ class Wizard{ // character 3
     arc( - 18, 65, 60, 20, 10, -15, PIE);
     circle( - 25,  25, 33);
     pop()
-// pretty pwease add to lil wiz
-  }
+  // pretty pwease add to lil wiz
+    }
 
   fireball(){
     push()
@@ -850,5 +876,22 @@ class MapFiller{
       line(width/15,i,width/15+width/6, i)
     }
     pop()
+  }
+}
+
+function bush(){
+  // makes a bush
+  fill(0, 255, 0)
+  strokeWeight(0);
+  circle(width/2 - 120, height/2 + 20, 40);
+  circle(width/2 - 180, height/2 + 20, 40);
+  circle(width/2 - 170, height/2, 40);
+  circle(width/2 - 150, height/2, 40);
+  circle(width/2 - 130, height/2, 40);
+  rect(width/2 - 180, height/2, 60, 40);
+  
+  fill(255, 0, 0)
+  for (let i = 0; i < 80; i += 5){
+    circle(width/2 - i, height/2 + i, 10);
   }
 }
