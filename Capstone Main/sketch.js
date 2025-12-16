@@ -32,12 +32,13 @@ function draw() {
   if(keyIsDown(68)){
     moveright()
   }
-  bush();
+  //bush();
+  zombie();
 }
 
-function mainGUI(){
+//function mainGUI(){
   
-}
+//}
 
 function moveup(){
   if(character.y >= 20){
@@ -903,4 +904,35 @@ class MapFiller{
     }
     pop()
   }
+}
+
+function zombie(){
+  // makes a zombie
+  strokeWeight(1);
+  fill(80, 190, 20)
+  circle(width/2, height/2, 60)
+  
+  fill(80, 0, 20)
+  ellipse(width/2, height/2 - 20, 40, 20)
+  
+  fill(235, 20, 147)
+  ellipse(width/2, height/2 - 20, 25, 20)
+
+  fill(80, 0, 20)
+  ellipse(width/2, height/2 + 15, 40, 20)
+  
+  strokeWeight(0);
+  fill(80, 190, 20)
+  ellipse(width/2, height/2 + 10, 50, 20)
+
+  fill(255)
+  ellipse(width/2 - 10, height/2, 17, 10)
+
+  fill(255)
+  circle(width/2 + 10, height/2, 13)
+
+  fill(255)
+  rect(width/2,height/2,40,50);
+
+
 }
