@@ -8,9 +8,9 @@ let xshift;
 let mapload;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  character = new Knight()
+  // character = new Knight()
   // character = new Archer();
-  // character = new Wizard();
+  character = new Wizard();
   // character = new Assassin();
   mapload = new MapFiller();
   angleMode(DEGREES)
@@ -33,7 +33,7 @@ function draw() {
     moveright()
   }
   //bush();
-  zombie();
+  // zombie();
 }
 
 //function mainGUI(){
@@ -554,7 +554,7 @@ class Wizard{ // character 3
     this.staff()
     // this.fireball()
     // this.icespell()
-    // this.holyBlast()
+    this.holyBlast()
 
   }
   body(){
