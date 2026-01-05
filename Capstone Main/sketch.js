@@ -905,9 +905,14 @@ class MapFiller{
     pop()
   }
 }
+// end of locations
 
+// monsters start here
 function zombie(){
   // makes a zombie
+  fill(255)
+  rect(width/2 - 20,height/2 + 20, 40, 50);
+
   strokeWeight(1);
   fill(80, 190, 20)
   circle(width/2, height/2, 60)
@@ -930,9 +935,5 @@ function zombie(){
 
   fill(255)
   circle(width/2 + 10, height/2, 13)
-
-  fill(255)
-  rect(width/2,height/2,40,50);
-
 
 }
