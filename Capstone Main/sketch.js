@@ -2,16 +2,20 @@
 // Logan and Troy
 // December 1, 2025
 let character;
+let monster;
 
 let arrowcase = 0 ;
 let xshift;
 let mapload;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // character = new Knight()
+  // character = new Knight();
   // character = new Archer();
-  character = new Wizard();
+  // character = new Wizard();
   // character = new Assassin();
+
+  monster = new Zombie();
+
   mapload = new MapFiller();
   angleMode(DEGREES)
 }
@@ -19,6 +23,7 @@ function setup() {
 function draw() {
   background(150);
   mapload.display()
+  monster.display();
   character.display();
   if(keyIsDown(87)){
     moveup()
@@ -32,8 +37,6 @@ function draw() {
   if(keyIsDown(68)){
     moveright()
   }
-  //bush();
-  // zombie();
 }
 
 //function mainGUI(){
@@ -693,10 +696,10 @@ class Wizard{ // character 3
 class Assassin{ // character 4 
   constructor(){
   this.x = width/2;
-  this.y = height/2
-  this.health = 70
-  this.speed =1.5
-  this.damage = 20
+  this.y = height/2;
+  this.health = 70;
+  this.speed =1.5;
+  this.damage = 20;
   }
   // will create the assassin
   display(){
@@ -709,29 +712,41 @@ class Assassin{ // character 4
     translate(this.x,this.y)
     stroke(0)
     strokeWeight(1)
-    fill(220, 20, 60);
-    rect( - 19.5,  25, 40, 50)
+    fill(0);
+    rect( - 20,  25, 40, 50)
+
+    fill(200);
+    triangle(-20, 75, 20, 75, 0, 50);
     
     fill(0);
     strokeWeight(0);
     arc(0, 0, 55, 60, 30, 20, CHORD, 2);
-    arc(0, 6, 70, 60, 30, 20, CHORD, 2);
+    arc(0, 6, 75, 62, 30, 20, CHORD, 2);
 
     fill(255, 204, 153);
     circle(0,  5, 60);
     
-    fill(255, 0, 0);
-    arc(0,  24, 50, 23, 40, 20, CHORD, 2);
+    strokeWeight(1)
+    fill(89)
+    arc(0, 15, 35, 5, 40, 20, CHORD, 2);
+    fill(134)
+    arc(0, 17, 40, 5, 40, 20, CHORD, 2);
+    fill(89)
+    arc(0, 20, 45, 5, 40, 20, CHORD, 2);
+    fill(134)
+    arc(0, 23, 50, 5, 40, 20, CHORD, 2);
+    fill(89)
+    arc(0, 26, 50, 5, 40, 20, CHORD, 2);
+    fill(134)
+    arc(0, 29, 45, 5, 40, 20, CHORD, 2);
+    fill(89)
+    arc(0, 33, 35, 5, 40, 20, CHORD, 2);
+
     
+    strokeWeight(0);
     fill(0);
-    arc(0, - 10, 60, 30, 30, 20, CHORD, 2);
-    arc( - 26,  10, 13, 32, 30, 20, CHORD, 2);
-    arc( 26,  10, 13, 32, 30, 20, CHORD, 2);
-    
-    
-    fill(0);
-    rect( 6, 40, 15, 20);
-    rect( - 20,  40, 15, 20);
+    arc(0, -9, 60, 35, 30, 20, CHORD, 2);
+    arc(0, -15, 45, 30, 30, 20, CHORD, 2);
     pop()
   }
   dagger(){
@@ -908,32 +923,50 @@ class MapFiller{
 // end of locations
 
 // monsters start here
-function zombie(){
-  // makes a zombie
-  fill(255)
-  rect(width/2 - 20,height/2 + 20, 40, 50);
+    class Zombie{ // Monster 1 
+      constructor(){
+      this.x = width/2;
+      this.y = height/2;
+      }
+      // will create the zombie
+      display(){
+      this.body();
+      }
+      
+    body(){
+      push()
+      translate(this.x,this.y)
+      stroke(0)
+      strokeWeight(1)
 
-  strokeWeight(1);
-  fill(80, 190, 20)
-  circle(width/2, height/2, 60)
-  
-  fill(80, 0, 20)
-  ellipse(width/2, height/2 - 20, 40, 20)
-  
-  fill(235, 20, 147)
-  ellipse(width/2, height/2 - 20, 25, 20)
+      fill(151, 87, 43)
+      rect(-20, 20, 40, 50);
 
-  fill(80, 0, 20)
-  ellipse(width/2, height/2 + 15, 40, 20)
-  
-  strokeWeight(0);
-  fill(80, 190, 20)
-  ellipse(width/2, height/2 + 10, 50, 20)
-
-  fill(255)
-  ellipse(width/2 - 10, height/2, 17, 10)
-
-  fill(255)
-  circle(width/2 + 10, height/2, 13)
-
-}
+      fill(80, 190, 20)
+      triangle(-20, 70, 20, 70, 0, 50,)
+    
+      strokeWeight(1);
+      fill(80, 190, 20)
+      circle(0, 0, 60)
+      
+      fill(80, 0, 20)
+      ellipse(0, -20, 40, 20)
+      
+      fill(235, 20, 147)
+      ellipse(0, -20, 25, 20)
+    
+      fill(80, 0, 20)
+      ellipse(0, 15, 40, 20)
+      
+      strokeWeight(0);
+      fill(80, 190, 20)
+      ellipse(0, 10, 50, 20)
+    
+      fill(255)
+      ellipse(-10, 0, 17, 10)
+    
+      fill(255)
+      circle(10, 0, 13)
+      pop();
+    }
+  }
