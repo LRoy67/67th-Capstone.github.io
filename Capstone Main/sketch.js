@@ -15,7 +15,8 @@ function setup() {
   // character = new Assassin();
 
   // monster = new Zombie();
-  monster = new Skeleton();
+  // monster = new Skeleton();
+  monster = new Boss();
 
   mapload = new MapFiller();
   angleMode(DEGREES)
@@ -878,17 +879,68 @@ class Skeleton{ // Monster 2
   bone(){
     push()
     translate(this.x, this.y)
+    stroke(0);
+    strokeWeight(1);
+    fill(0)
+    rect(0, 0, 7, 30);
+    strokeWeight(1);
+    fill(255, 0, 0);
+    ellipse(-10, -5, 5, 9);
+    strokeWeight(1);
+    fill(0, 0, 255);
+    circle(8, 0, 10);
+    circle(-1, 0, 10);
+    fill(0);
+    triangle(0, 30, 3.5, 40, 7, 30);
+    pop();
+  }
+}
+
+class Boss { // Monster 1 
+  constructor() {
+    this.x = width / 3;
+    this.y = height / 3;
+  }
+  // will create the zombie
+  display() {
+    this.body();
+  }
+
+  body() {
+    push()
+    translate(this.x, this.y)
     stroke(0)
     strokeWeight(1)
-    rect(0, 0, 7, 30)
-    strokeWeight(1)
-    fill(255, 0, 0)
-    ellipse(-10, -5, 5, 9)
-    strokeWeight(1)
-    circle(8, 0, 10)
-    circle(-1, 0, 10)
-    triangle(0, 30, 3.5, 40, 7, 30)
-    pop()
+
+    fill(151, 87, 43)
+    rect(-20, 20, 40, 50);
+
+    fill(80, 190, 20)
+    triangle(-20, 70, 20, 70, 0, 50,)
+
+    strokeWeight(1);
+    fill(80, 190, 20)
+    circle(0, 0, 60)
+
+    fill(80, 0, 20)
+    ellipse(0, -20, 40, 20)
+
+    fill(235, 20, 147)
+    ellipse(0, -20, 25, 20)
+
+    fill(80, 0, 20)
+    ellipse(0, 15, 40, 20)
+
+    strokeWeight(0);
+    fill(80, 190, 20)
+    ellipse(0, 10, 50, 20)
+
+    fill(255)
+    ellipse(-10, 0, 17, 10)
+
+    fill(255)
+    circle(10, 0, 13)
+    pop();
   }
 }
 
