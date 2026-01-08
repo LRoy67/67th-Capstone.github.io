@@ -923,23 +923,28 @@ class Boss { // Monster 1
     circle(0, 0, 60)
 
     fill(80, 0, 20)
-    ellipse(0, -20, 40, 20)
+    ellipse(0, -27, 25, 5)
 
-    fill(235, 20, 147)
-    ellipse(0, -20, 25, 20)
+    //fill(80, 0, 20)
+    //ellipse(0, 15, 40, 20)
 
-    fill(80, 0, 20)
-    ellipse(0, 15, 40, 20)
+    fill(246,215,176)
+    rotate(45)
+    rect(-5, 0, 20, 5)
 
-    strokeWeight(0);
-    fill(80, 190, 20)
-    ellipse(0, 10, 50, 20)
+    arc(0, 10, 55, 4, 30, 2, CHORD)
 
-    fill(255)
-    ellipse(-10, 0, 17, 10)
 
-    fill(255)
-    circle(10, 0, 13)
+
+
+
+
+
+
+
+
+
+
     pop();
   }
 }
