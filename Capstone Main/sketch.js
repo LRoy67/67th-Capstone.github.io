@@ -3,10 +3,13 @@
 // December 1, 2025
 let character;
 let monster;
-
+let gold = 10
 let arrowcase = 0;
 let xshift;
 let mapload;
+let movment= 10
+let fightnum = 0
+let charselect = 0
 function setup() {
   createCanvas(543, 540);
   // character = new Knight();
@@ -26,7 +29,8 @@ function draw() {
   background(150);
   mapload.display()
   monster.display();
-  //character.display();
+  // character.display();
+  mainGUI()
   if (keyIsDown(87)) {
     moveup()
   }
@@ -40,10 +44,47 @@ function draw() {
     moveright()
   }
 }
+function mainGUI(){
+//  healthUI(character);
+ moneyGUI()
+ mapGUI()
+}
 
-//function mainGUI(){
+function healthUI(player){
+  push()
+  translate(player.x,player.y)
+  fill(190,10,10)
+  rect(player.healthbarst,player.healthbarup,80,10)
+  fill(10,190,10)
+  let healthval = map(player.health,0,player.maxhealth,0,80);
+  rect(player.healthbarst,player.healthbarup,healthval,10)
+  pop();
+}
 
-//}
+function moneyGUI(){
+  fill(137, 81, 41)
+  rect(0,height - 40,100,40)
+  fill("rgba(238, 203, 5, 0.99)");
+  circle(20,height-20,25)
+  circle(20,height-20,20)
+  fill(137, 81, 41)
+  circle(20,height-20,5)
+  fill("rgba(238, 203, 5, 0.99)");
+  textSize(20)
+  text(gold,40,height-12)
+}
+
+function mapGUI(){
+  let mapsize = 140
+  fill(0)
+  rect(width- mapsize,height - mapsize,mapsize,mapsize)
+  push()
+  translate(width- mapsize -1,height - mapsize-1)
+  scale(0.26)
+  mapload.display()
+  
+  pop()
+}
 
 function moveup() {
   if (character.y >= 20) {
@@ -66,6 +107,10 @@ function movedown() {
   }
 }
 
+function fight(){
+  
+}
+
 // start of characters We should move to diffrent file once done fully 
 class Knight { //character 1
   constructor() {
@@ -73,7 +118,10 @@ class Knight { //character 1
     this.y = height / 2
     this.silver = color("#9fa1a0")
     this.health = 110
+    this.maxhealth = this.health
+    this.healthbarup = -50
     this.sheildhealth = 20
+    this.healthbarst = -20
     this.speed = 0.8
     this.damage = 19
   }
@@ -109,12 +157,6 @@ class Knight { //character 1
     circle(13, -18, 22)
     circle(-13, -18, 22)
     circle(0, -14, 40)
-
-
-
-
-
-
     fill(255, 204, 153)
     circle(13, -3, 22)
     fill(this.silver)
@@ -218,6 +260,9 @@ class Archer { //character 2
     this.y = height / 2
     this.arrowx = this.x + 14; this.arrowy = this.y + 38
     this.health = 70;
+    this.maxhealth = this.health
+    this.healthbarst = -40
+    this.healthbarup = -65
     this.speed = 1.25;
     this.damage = 40
   }
@@ -543,13 +588,16 @@ class Archer { //character 2
 class Wizard { // character 3
   // will create the wizard character
   constructor() {
-    this.x = width / 3;
+    this.x = width / 2;
     this.y = height / 2
     this.fireballx = this.x + 75; this.firebally = this.y + 10
     this.iceballx = this.x + 57; this.icebally = this.y + 10
     this.blastx = this.x + 60; this.blasty = this.y + 10;
     this.shotx = this.blastx; this.shoty = this.blasty;
     this.health = 90
+    this.maxhealth = this.health
+    this.healthbarst = -40
+    this.healthbarup = -90
     this.damage = 30
     this.speed = 1
   }
@@ -559,7 +607,7 @@ class Wizard { // character 3
     this.staff()
     // this.fireball()
     // this.icespell()
-    this.holyBlast()
+    // this.holyBlast()
 
   }
   body() {
@@ -700,6 +748,9 @@ class Assassin { // character 4
     this.x = width / 2;
     this.y = height / 2;
     this.health = 70;
+    this.maxhealth = this.health
+    this.healthbarst = -40
+    this.healthbarup = -50
     this.speed = 1.5;
     this.damage = 20;
   }
@@ -912,46 +963,66 @@ class Boss { // Monster 1
     stroke(0)
     strokeWeight(1)
 
-    fill(151, 87, 43)
+    fill(130, 70, 51)
     rect(-20, 20, 40, 50);
 
-    fill(80, 190, 20)
-    triangle(-20, 70, 20, 70, 0, 50,)
 
     strokeWeight(1);
-    fill(80, 190, 20)
+    fill(130, 70, 51)
     circle(0, 0, 60)
 
-    fill(80, 0, 20)
-    ellipse(0, -27, 25, 5)
 
-    //fill(80, 0, 20)
-    //ellipse(0, 15, 40, 20)
-
+    fill(0)
+    rect(-20, -12, 40, 7)
+    fill(255, 0, 0)
+    circle(11, -8.5, 7)
+    fill(255, 0, 0)
+    circle(-11, -8.5, 7)
+    
+    push();
     fill(246,215,176)
-    rotate(45)
-    rect(-5, 0, 20, 5)
+    arc(-16, -7, 5, 37, 30, 2, CHORD)
+    ellipse(0, -27, 25, 5)
+    arc(0, -24, 37, 5, 30, 2, CHORD)
+    arc(0, -21, 43, 5, 30, 2, CHORD)
+    arc(-3, -18.5, 42, 5, 30, 2, CHORD)
+    arc(0, -16, 49, 5, 30, 2, CHORD)
+    arc(0, -13, 52, 5, 30, 2, CHORD)
+    arc(-20.5, -9, 15, 5, 30, 2, CHORD)
+    arc(21, -9, 15, 5, 30, 2, CHORD)
+    arc(0, -8, 15, 5, 30, 2, CHORD)
+    arc(0, -4, 60, 5, 30, 2, CHORD)
+    arc(0, -2, 60, 5, 30, 2, CHORD)
+    arc(0, 0, 60, 5, 30, 2, CHORD)
 
+    
+
+    
+    arc(0, 24, 37, 5, 30, 2, CHORD)
+    arc(0, 21, 43, 5, 30, 2, CHORD)
+    arc(0, 18.5, 45, 5, 30, 2, CHORD)
+    arc(-5, 15, 43, 5, 30, 2, CHORD)
+    arc(0, 12, 57, 5, 30, 2, CHORD)
+    arc(5, 9, 47, 5, 30, 2, CHORD)
+    arc(0, 6, 57, 5, 30, 2, CHORD)
+
+    
+    ellipse(0, 27, 25, 5)
+
+    
+    rotate(45);
     arc(0, 10, 55, 4, 30, 2, CHORD)
-
-
-
-
-
-
-
-
-
-
-
-
+    rotate(90);
+    arc(0, 9, 55, 4, 30, 2, CHORD)
+    rotate(120);
+    arc(0, 10, 55, 4, 30, 2, CHORD)
+    pop();
+    
     pop();
   }
 }
 
 // end of monsters
-
-
 
 // start of locations
 class MapFiller {
@@ -960,15 +1031,22 @@ class MapFiller {
     this.treey = height / 2
     this.bushx = width / 2
     this.bushy = height / 2
+    this.mapnum = 2
   }
 
   display() {
-    // this.mapfill2()
-    // this.mapfill3()
-    // this.mapStart()
+    switch(this.mapnum){
+      case 0:
+        this.mapStart()
+        break
+      case 1:
+        this.mapfill2()
+        break
+      case 2:
+        this.mapfill3()
     // this.combat1()
     // this.bossmap()
-    
+    }
 
   }
   tree() {
@@ -996,7 +1074,8 @@ class MapFiller {
   }
 
   mapStart() {
-    background(17, 154, 50)
+    fill(17, 154, 50)
+    rect(0,0,width,height)
     fill(180, 150, 80);
     rect(width * 0.7, height * 0.4, width * 0.2, height * 0.3)
     triangle(width * 0.7, height * 0.4, width * 0.8, height * 0.4 + height * 0.15, width * 0.7, height * 0.698);
@@ -1031,7 +1110,8 @@ class MapFiller {
 
 
   mapfill2() {
-    background(180, 145, 104)
+    fill(180, 145, 104)
+    rect(0,0,width,height)
     push()
     strokeWeight(0)
     fill(212, 190, 144)
@@ -1065,7 +1145,8 @@ class MapFiller {
   mapfill3() {
     push()
     strokeWeight(0)
-    background(17, 154, 50)
+    fill(17, 154, 50)
+    rect(0,0,width,height)
     fill(212, 190, 144)
     triangle(0, height, 0, height * 0.6, width * 0.2, height)
     triangle(width, height, width, height * 0.6, width * 0.8, height)
@@ -1193,5 +1274,4 @@ class MapFiller {
    
     }
   }
-
 // end of locations
