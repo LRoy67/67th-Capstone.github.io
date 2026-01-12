@@ -10,26 +10,44 @@ let mapload;
 let movment= 10
 let fightnum = 0
 let charselect = 0
+let gamer = true
+
 function setup() {
   createCanvas(543, 540);
-  // character = new Knight();
+  character = new Knight();
   // character = new Archer();
   // character = new Wizard();
   // character = new Assassin();
 
   // monster = new Zombie();
   // monster = new Skeleton();
-  monster = new Boss();
+  monster = new Ghost();
+  // monster = new Boss();
 
   mapload = new MapFiller();
   angleMode(DEGREES)
+  game()
 }
 
-function draw() {
+function draw(){
+  if(gamer == false){
+    starts()
+  }
+  else{
+  game()
+  }
+}
+
+function starts(){
+  fill("rgb(226, 215, 53)")
+  rect(width*0.1,height/4,width*0.8,height/2)
+}
+
+function game() {
   background(150);
   mapload.display()
   monster.display();
-  // character.display();
+  character.display();
   mainGUI()
   if (keyIsDown(87)) {
     moveup()
@@ -62,7 +80,7 @@ function healthUI(player){
 }
 
 function moneyGUI(){
-  fill(137, 81, 41)
+  fill("rgba(137, 81, 41,1)")
   rect(0,height - 40,100,40)
   fill("rgba(238, 203, 5, 0.99)");
   circle(20,height-20,25)
@@ -81,14 +99,37 @@ function mapGUI(){
   push()
   translate(width- mapsize -1,height - mapsize-1)
   scale(0.26)
-  mapload.display()
+  let numload = mapload.mapnum +1
+  switch(numload){
+    case 0:
+      mapload.mapStart()
+      break
+    case 1:
+      mapload.mapfill2()
+      break
+    case 2:
+      mapload.mapfill3()
+      break
+    case 3:
+      mapload.mapend()
+      break
+    case 4:
+      mapload.mapend()
+      break
   
+  }
   pop()
 }
 
 function moveup() {
   if (character.y >= 20) {
     character.y -= character.speed * 4
+    if(mapload.mapnum < 3){
+    if(character.y < 20){
+      mapload.mapnum ++
+      character.y = height- 70
+    }
+  }
   }
 }
 function moveleft() {
@@ -104,7 +145,14 @@ function moveright() {
 function movedown() {
   if (character.y <= height - 70) {
     character.y += character.speed * 4
+    if(mapload.mapnum >= 1){
+    if(character.y > height - 70){
+      mapload.mapnum --
+      character.y = 20
+    }
   }
+  }
+ 
 }
 
 function fight(){
@@ -947,6 +995,42 @@ class Skeleton{ // Monster 2
   }
 }
 
+class Ghost{ // Monster 3
+  constructor() {
+    this.x = width / 3;
+    this.y = height / 3;
+  }
+  // will create the ghost
+  display() {
+    this.body();
+  }
+
+  body() {
+    push()
+    translate(this.x, this.y)
+    stroke(0)
+    strokeWeight(1)
+
+    fill(255)
+    circle(0, 20, 40)
+    rect(-20, 20, 40, 60);
+    strokeWeight(0)
+    rect(-19.5, 19.5, 39, 1);
+
+    fill(0);
+    ellipse(-7, 20, 10, 15)
+    ellipse(7, 20, 10, 15)
+
+      push();
+      fill(0)
+      for(let p = 10; p >- 50; p -= 10){
+      triangle(p, 80, p*2, 80, p+p/2, 70)
+      }
+      pop()
+  pop()
+  }
+}
+
 class Boss { // Monster 1 
   constructor() {
     this.x = width / 3;
@@ -964,60 +1048,79 @@ class Boss { // Monster 1
     strokeWeight(1)
 
     fill(130, 70, 51)
-    rect(-20, 20, 40, 50);
+    rect(-30, 20, 60, 80);
+
+
+      push()
+      translate(-30, 25)
+      fill(246,215,176)
+      for(let i = 3; i < 70; i+=10){
+        rect(0, 0+i, 60, 10)
+      }
+      rotate(45);
+      rect(10, 0, 75, 10)
+      pop();
+
 
 
     strokeWeight(1);
     fill(130, 70, 51)
-    circle(0, 0, 60)
+    circle(0, 0, 80)
 
 
     fill(0)
-    rect(-20, -12, 40, 7)
+    rect(-20, -20, 40, 7)
     fill(255, 0, 0)
-    circle(11, -8.5, 7)
+    circle(11, -16.5, 7)
     fill(255, 0, 0)
-    circle(-11, -8.5, 7)
-    
-    push();
-    fill(246,215,176)
-    arc(-16, -7, 5, 37, 30, 2, CHORD)
-    ellipse(0, -27, 25, 5)
-    arc(0, -24, 37, 5, 30, 2, CHORD)
-    arc(0, -21, 43, 5, 30, 2, CHORD)
-    arc(-3, -18.5, 42, 5, 30, 2, CHORD)
-    arc(0, -16, 49, 5, 30, 2, CHORD)
-    arc(0, -13, 52, 5, 30, 2, CHORD)
-    arc(-20.5, -9, 15, 5, 30, 2, CHORD)
-    arc(21, -9, 15, 5, 30, 2, CHORD)
-    arc(0, -8, 15, 5, 30, 2, CHORD)
-    arc(0, -4, 60, 5, 30, 2, CHORD)
-    arc(0, -2, 60, 5, 30, 2, CHORD)
-    arc(0, 0, 60, 5, 30, 2, CHORD)
+    circle(-11, -16.5, 7)
 
-    
+      
+          push();
+          fill(246,215,176)
+          arc(-16, -7, 5, 37, 30, 2, CHORD)
+          ellipse(0, -37, 25, 5)
+          arc(0, -34.5, 39, 5, 5, 2, CHORD)
+          arc(0, -31.5, 48, 5, 5, 2, CHORD)
+          arc(-3, -28, 50, 5, 5, 2, CHORD)
+          arc(0, -25, 62, 5, 5, 2, CHORD)
+          arc(0, -22, 65, 5, 5, 2, CHORD)
+          arc(0, -12, 77, 5, 5, 2, CHORD)
+          arc(0, -9, 77, 5, 5, 2, CHORD)
+          arc(0, -6, 77, 5, 5, 2, CHORD)
+          arc(0, -3, 77, 5, 5, 2, CHORD)
 
-    
-    arc(0, 24, 37, 5, 30, 2, CHORD)
-    arc(0, 21, 43, 5, 30, 2, CHORD)
-    arc(0, 18.5, 45, 5, 30, 2, CHORD)
-    arc(-5, 15, 43, 5, 30, 2, CHORD)
-    arc(0, 12, 57, 5, 30, 2, CHORD)
-    arc(5, 9, 47, 5, 30, 2, CHORD)
-    arc(0, 6, 57, 5, 30, 2, CHORD)
 
-    
-    ellipse(0, 27, 25, 5)
+          arc(-24.5, -18, 20, 4, 5, 2, CHORD)
+          arc(-24.5, -16, 20, 4, 5, 2, CHORD)
+          arc(25, -18, 20, 4, 5, 2, CHORD)
+          arc(25, -16, 20, 4, 5, 2, CHORD)
+          arc(0, -17, 15, 5, 5, 2, CHORD)
 
-    
-    rotate(45);
-    arc(0, 10, 55, 4, 30, 2, CHORD)
-    rotate(90);
-    arc(0, 9, 55, 4, 30, 2, CHORD)
-    rotate(120);
-    arc(0, 10, 55, 4, 30, 2, CHORD)
-    pop();
-    
+        
+
+          arc(0, 6, 77, 5, 5, 2, CHORD)
+          arc(0, 9, 77, 5, 5, 2, CHORD)
+          arc(0, 12, 77, 5, 5, 2, CHORD)
+          arc(0, 16, 75, 5, 5, 2, CHORD)
+          arc(0, 19, 72, 5, 5, 2, CHORD)
+          arc(0, 22, 65, 5, 5, 2, CHORD)
+          arc(-9, 25, 43, 5, 5, 2, CHORD)
+          arc(0, 28, 55, 5, 5, 2, CHORD)
+          arc(3, 31.5, 40, 5, 5, 2, CHORD)
+          arc(0, 34.5, 39, 5, 5, 2, CHORD)
+          ellipse(0, 37, 25, 5)
+          
+          rotate(45);
+          arc(0, 10, 78, 4, 30, 2, CHORD)
+          rotate(90);
+          arc(0, 9, 78, 4, 30, 2, CHORD)
+          rotate(120);
+          arc(0, 10, 78, 4, 30, 2, CHORD)
+          rotate(270);
+          arc(0, 0, 78, 4, 30, 2, CHORD)
+          pop();
+
     pop();
   }
 }
@@ -1031,23 +1134,36 @@ class MapFiller {
     this.treey = height / 2
     this.bushx = width / 2
     this.bushy = height / 2
-    this.mapnum = 2
+    this.mapnum = 0
+    this.combater = false
+    this.combats = 0
   }
 
   display() {
-    switch(this.mapnum){
-      case 0:
-        this.mapStart()
-        break
-      case 1:
-        this.mapfill2()
-        break
-      case 2:
-        this.mapfill3()
-    // this.combat1()
-    // this.bossmap()
+    if(this.combater == false){
+      switch(this.mapnum){
+        case 0:
+          this.mapStart()
+          break
+        case 1:
+          this.mapfill2()
+          break
+        case 2:
+          this.mapfill3()
+          break
+        case 3:
+          this.mapend()
+          break
     }
-
+  }
+  else{
+    if(this.combats == 0){
+      this.combat1()
+    }
+    else if(this.combats == 2){
+      this.bossmap()
+    }
+  }
   }
   tree() {
     // your power is... greeeeeeeeeeeeeeeeeeeeen
@@ -1121,18 +1237,18 @@ class MapFiller {
     push()
     translate(width / 8 - 9, height / 2)
     rotate(10)
-    rect(0, 0, 100, 190)
+    rect(0, 0, 10, 70)
     rotate(-300)
     pop()
     push()
-    translate(width / 8 - 90, height / 2 - 90)
-    rotate(-30)
-    rect(0, 0, 100, 190)
+    translate(width / 6 - 90, height / 2 +90)
+    rotate(-41)
+    rect(0, 0, 90, 100)
     pop()
     push()
     translate(width / 8 - 70, height - 21)
     rotate(-155)
-    rect(0, 0, 300, 310)
+  
     pop()
     push()
     translate(width / 8 * 7, height / 4)
@@ -1168,7 +1284,8 @@ class MapFiller {
   mapend() {
     push()
     strokeWeight(0)
-    background(17, 154, 50)
+    fill(17, 154, 50)
+    rect(0,0,width,height)
     fill(180, 150, 80)
     rect(width / 15, height / 10, width / 6, height / 3)
     strokeWeight(1)
