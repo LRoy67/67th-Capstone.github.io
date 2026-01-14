@@ -1,6 +1,8 @@
 // Capstone Project
 // Logan and Troy
 // December 1, 2025
+
+// Global Varriables
 let character;
 let monster;
 let gold = 10
@@ -10,7 +12,16 @@ let mapload;
 let movment= 10
 let fightnum = 0
 let charselect = 0
-let gamer = true
+let gamer = false
+let upgrade = false
+let settings = false
+let move = 0
+let playerturn = false; let playermove = false
+let defender = false; let attacker = false; let run = false; let specialmove = false; let tunsincespecial = 0;
+let eneattacker = false; let enedefender = false;
+let eneturn = false
+
+
 
 function setup() {
   createCanvas(543, 540);
@@ -21,7 +32,7 @@ function setup() {
 
   // monster = new Zombie();
   // monster = new Skeleton();
-  monster = new Ghost();
+  // monster = new Ghost();
   // monster = new Boss();
 
   mapload = new MapFiller();
@@ -36,18 +47,83 @@ function draw(){
   else{
   game()
   }
+
+  //fight_Buttons()
+  characterSelect()
+}
+
+function mousePressed(){
+  if(gamer){
+    
+  }
+  if(mapload.combater){
+    if((mouseX >= width/2 - 250 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 250)+100 && mouseY < (height/2 + 160) + 40)){
+      move = 1
+    }
+    if((mouseX >= width/2 - 115 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 115)+100 && mouseY < (height/2 + 160) + 40)){
+      move = 2
+    }
+    if((mouseX >= width/2 + 15 && mouseY >=height/2 + 160) && (mouseX < ( width/2 + 15)+100 && mouseY < (height/2 + 160) + 40)){
+      move = 3
+    }
+    if((mouseX >= width/2 + 145 && mouseY >=height/2 + 160) && (mouseX < ( width/2 + 145)+100 && mouseY < (height/2 + 160) + 40)){
+      move = 4
+    }
+  }
+  if(settings){
+
+  }
+  if(upgrade){
+
+  }
 }
 
 function starts(){
+  textAlign(CENTER);
   fill("rgb(226, 215, 53)")
   rect(width*0.1,height/4,width*0.8,height/2)
+  
+  startButton();
+}
+
+function startButton(){
+  fill(0)
+  rect(width/2, height/2, 120, 60)
+  fill(255)
+  text("START",width/2, height/2)
+}
+
+function characterSelect(){
+  textAlign(CENTER);
+  fill(0)
+  rect(width/2 - 250, height/2 + 80, 100, 40)
+  fill(255)
+  text("Knight", width/2 - 200, height/2 + 105.5);
+
+  
+  fill(0)
+  rect(width/2 - 115, height/2 + 80, 100, 40)
+  fill(255)
+  text("Archer", width/2 - 65, height/2 + 105.5);
+  
+  
+  fill(0)
+  rect(width/2 + 15, height/2 + 80, 100, 40)
+  fill(255)
+  text("Wizard", width/2 + 65, height/2 + 105.5);
+  
+
+  fill(0)
+  rect(width/2 + 145, height/2 + 80, 100, 40)
+  fill(255)
+  text("Assassin", width/2 + 195, height/2 + 105.5);
 }
 
 function game() {
   background(150);
   mapload.display()
-  monster.display();
-  character.display();
+  // monster.display();
+  // character.display();
   mainGUI()
   if (keyIsDown(87)) {
     moveup()
@@ -63,9 +139,11 @@ function game() {
   }
 }
 function mainGUI(){
-//  healthUI(character);
+  //  healthUI(character);
  moneyGUI()
+ if(mapload.combater == false){
  mapGUI()
+ }
 }
 
 function healthUI(player){
@@ -100,7 +178,16 @@ function mapGUI(){
   translate(width- mapsize -1,height - mapsize-1)
   scale(0.26)
   let numload = mapload.mapnum +1
-  switch(numload){
+  if(mapload.combater){
+    if(mapload.combats == 0){
+      mapload.combat1()
+    }
+    else if(mapload.combats == 2){
+      mapload.bossmap()
+    }
+  }
+  else{
+    switch(numload){
     case 0:
       mapload.mapStart()
       break
@@ -117,10 +204,12 @@ function mapGUI(){
       mapload.mapend()
       break
   
-  }
+  }}
   pop()
 }
 
+
+// Movement start
 function moveup() {
   if (character.y >= 20) {
     character.y -= character.speed * 4
@@ -154,10 +243,99 @@ function movedown() {
   }
  
 }
+// Movement end
 
+
+
+// Fighting start
 function fight(){
+  if(playerturn){
+    if(eneattacker && defender == false){
+      character.health - monster.damage
+      if(character.health<0){
+        playerdeath()
+      }
+      eneattacker = false
+    }
+    fight_Buttons()
+  }
+  else if(playermove){
+    switch(move){
+      case 1:
+        attacker = true
+        break
+      case 2:
+        defender = true
+        break
+      case 3:
+        specialmove = true
+        break
+      case 4:
+        run = true
+        break
+    }
+    playermove = false
+  }
+  else{
+    enemymove()
+  }
+ 
+}
+
+function enemymove(){
+  if(attacker && enedefender == false){
+    monster.health - character.damage
+    if(monster.health <0){
+      monsterdeath()
+    }
+    attacker = false
+  }
+  enemove = float(random(1,2))
+  if(enemove == 1){
+    eneattacker = true
+  }
+  else if(enemove == 2){
+    enedefender = true
+  }
+  playermove = true
+}
+
+function monsterdeath(){
   
 }
+
+function playerdeath(){
+  
+}
+
+function fight_Buttons(){
+  textAlign(CENTER);
+  fill(255, 0, 0)
+  rect(width/2 - 250, height/2 + 160, 100, 40)
+  fill(0)
+  text("Attack", width/2 - 200, height/2 + 185.5);
+
+  
+  fill(0, 135, 255)
+  rect(width/2 - 115, height/2 + 160, 100, 40)
+  fill(0)
+  text("Deffend", width/2 - 65, height/2 + 185.5);
+  
+  
+  fill(60, 255, 0)
+  rect(width/2 + 15, height/2 + 160, 100, 40)
+  fill(0)
+  text("Special", width/2 + 65, height/2 + 185.5);
+  
+
+  fill(255)
+  rect(width/2 + 145, height/2 + 160, 100, 40)
+  fill(0)
+  text("Retreat", width/2 + 195, height/2 + 185.5);
+}
+// Fighting end
+
+
 
 // start of characters We should move to diffrent file once done fully 
 class Knight { //character 1
@@ -986,11 +1164,11 @@ class Skeleton{ // Monster 2
     fill(255, 0, 0);
     ellipse(-10, -5, 5, 9);
     strokeWeight(1);
-    fill(0, 0, 255);
+    fill(255);
     circle(8, 0, 10);
     circle(-1, 0, 10);
-    fill(0);
-    triangle(0, 30, 3.5, 40, 7, 30);
+    circle(8, 0, 10);
+    circle(-1, 0, 10);
     pop();
   }
 }
@@ -1023,8 +1201,8 @@ class Ghost{ // Monster 3
 
       push();
       fill(0)
-      for(let p = 10; p >- 50; p -= 10){
-      triangle(p, 80, p*2, 80, p+p/2, 70)
+      for(let p = 10; p > -30; p -= 10){
+      triangle(p, 80, p +10, 80, p+10/2, 70)
       }
       pop()
   pop()
@@ -1135,7 +1313,7 @@ class MapFiller {
     this.bushx = width / 2
     this.bushy = height / 2
     this.mapnum = 0
-    this.combater = false
+    this.combater = true
     this.combats = 0
   }
 
@@ -1155,15 +1333,15 @@ class MapFiller {
           this.mapend()
           break
     }
-  }
-  else{
+    }
+    else{
     if(this.combats == 0){
       this.combat1()
     }
     else if(this.combats == 2){
       this.bossmap()
     }
-  }
+    }
   }
   tree() {
     // your power is... greeeeeeeeeeeeeeeeeeeeen
@@ -1297,7 +1475,8 @@ class MapFiller {
 
   combat1(){
     push()
-    background("#1F1C40")
+    fill("#1F1C40")
+    rect(0,0,width,height)
     fill("#9B6048")
     strokeWeight(1);
     for(let x = 0;x<width;x+=70){
@@ -1311,8 +1490,8 @@ class MapFiller {
     
   bossmap(){
     push()
-    background("#1F1C40")
-  
+    fill("#1F1C40")
+    rect(0,0,width,height)
     fill("#935B44")
     rect(0,0,width)
     fill("#B97356")
