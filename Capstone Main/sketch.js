@@ -3,7 +3,8 @@
 // December 1, 2025
 
 // Global Varriables
-let character;
+let character = [];
+let player;
 let monster;
 let monsterslist = []
 let gold = 10
@@ -21,21 +22,18 @@ let playerturn = false; let playermove = false
 let defender = false; let attacker = false; let run = false; let specialmove = false; let tunsincespecial = 0;
 let eneattacker = false; let enedefender = false;
 let eneturn = false
+let selector = false
+let customFont;
 
 
 
-
-
-
-
-
-
-function setup() {
+async function setup() {
   createCanvas(543, 540);
-  character = new Knight();
-  // character = new Archer();
-  // character = new Wizard();
-  // character = new Assassin();
+  character.push(new Knight());
+  character.push(new Archer())
+  character.push(new Wizard())
+  character.push(new Assassin())
+  customFont = await loadFont("assets/UM.ttf");
   monsterslist.push(new Zombie())
   // monster = new Zombie();
   // monster = new Skeleton();
@@ -51,6 +49,9 @@ function draw(){
   if(gamer == false){
     starts()
   }
+  else if(selector == false){
+    characterSelect()
+  }
   else{
   game()
   }
@@ -59,9 +60,39 @@ function draw(){
   // characterSelect()
 }
 
+
 function mousePressed(){
-  if(gamer){
-    
+  if(gamer == false){
+    if((mouseX >= width/2 - 60 && mouseY >=height/2 + 55) && (mouseX < (width/2 - 60)+120 && mouseY < (height/2 + 55) + 60)){
+      gamer = true
+      game()
+    }
+  }
+  if(selector == false){
+    if((mouseX >= width/2 - 205 && mouseY >=height/2 + 80) && (mouseX < (width/2 - 205)+90 && mouseY < (height/2 + 80) + 40)){
+      player = new Knight()
+      selector = true 
+      player.x = width/2
+      player.y = height *0.8
+    }
+    if((mouseX >= width/2 - 100 && mouseY >=height/2 + 80) && (mouseX < (width/2 - 100)+90 && mouseY < (height/2 + 80) + 40)){
+      player = new Archer()
+      selector = true
+      player.x = width/2
+      player.y = height *0.8
+    }
+    if((mouseX >= width/2 + 10 && mouseY >=height/2 + 80) && (mouseX < ( width/2 + 10)+90 && mouseY < (height/2 + 80) + 40)){
+      player = new Wizard()
+      selector = true
+      player.x = width/2
+      player.y = height *0.8
+    }
+    if((mouseX >= width/2 + 115 && mouseY >=height/2 + 80) && (mouseX < ( width/2 + 115)+90 && mouseY < (height/2 + 80) + 40)){
+      player = new Assassin()
+      selector = true
+      player.x = width/2
+      player.y = height *0.8
+    }
   }
   if(mapload.combater){
     if((mouseX >= width/2 - 250 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 250)+100 && mouseY < (height/2 + 160) + 40)){
@@ -95,19 +126,57 @@ function starts(){
 }
 
 function startButton(){
+  push();
   fill(0)
   rect(width/2 - 60, height/2 + 55, 120, 60)
   fill(255)
+  textSize(20)
   text("START",width/2, height/2 + 92.5)
+  pop();
 }
 
 function titleText(){
+  push();
+  fill(0)
+  textSize(50)
   textAlign(CENTER);
-  textFont("OldEnglish");
-  text("Trogan Adventures", width/2, height/2);
+  textStyle(BOLD)
+  textFont(customFont);
+  text("Trogan", width/2 - 110, height/2 - 20);
+  pop();
+
+  push();
+  fill(255)
+  textSize(48)
+  textAlign(CENTER);
+  textFont(customFont);
+  text("Trogan", width/2 - 110, height/2 - 20);
+  pop();
+
+  push();
+  fill(0)
+  textSize(50)
+  textAlign(CENTER);
+  textStyle(BOLD)
+  textFont(customFont);
+  text("Adventures", width/2 + 80, height/2 - 20);
+  pop();
+
+  push();
+  fill(255)
+  textSize(49)
+  textAlign(CENTER);
+  textFont(customFont);
+  text("Adventures", width/2 + 80, height/2 - 20);
+  pop();
 }
 
 function characterSelect(){
+  fill("rgb(226, 215, 53)")
+  rect(width*0.1,height/4,width*0.8,height/2)
+  for(let i of character){
+    i.display()
+  }
   textAlign(CENTER);
   fill(0)
   rect(width/2 - 205, height/2 + 80, 90, 40)
@@ -140,7 +209,7 @@ function game() {
     i.display()
   }
   // monster.display();
-  // character.display();
+  player.display()
   mainGUI()
   if(monsterslist){
   monsterhealthUI()
@@ -244,33 +313,33 @@ function mapGUI(){
 
 // Movement start
 function moveup() {
-  if (character.y >= 20) {
-    character.y -= character.speed * 4
-    if(mapload.mapnum < 3){
-    if(character.y < 20){
+  if (player.y >= 20) {
+    player.y -= player.speed * 4
+    if(player.mapnum < 3){
+    if(player.y < 20){
       mapload.mapnum ++
-      character.y = height- 70
+      player.y = height- 70
     }
   }
   }
 }
 function moveleft() {
-  if (character.x >= 20) {
-    character.x -= character.speed * 4
+  if (player.x >= 20) {
+    player.x -= player.speed * 4
   }
 }
 function moveright() {
-  if (character.x <= width - 70) {
-    character.x += character.speed * 4
+  if (player.x <= width - 70) {
+    player.x += player.speed * 4
   }
 }
 function movedown() {
-  if (character.y <= height - 70) {
-    character.y += character.speed * 4
+  if (player.y <= height - 70) {
+    player.y += player.speed * 4
     if(mapload.mapnum >= 1){
-    if(character.y > height - 70){
+    if(player.y > height - 70){
       mapload.mapnum --
-      character.y = 20
+      player.y = 20
     }
   }
   }
@@ -284,8 +353,8 @@ function movedown() {
 function fight(){
   if(playerturn){
     if(eneattacker && defender == false){
-      character.health - monster.damage
-      if(character.health<0){
+      player.health - monster.damage
+      if(player.health<0){
         playerdeath()
       }
       eneattacker = false
@@ -317,7 +386,7 @@ function fight(){
 
 function enemymove(){
   if(attacker && enedefender == false){
-    monster.health - character.damage
+    monster.health - player.damage
     if(monster.health <0){
       monsterdeath()
     }
@@ -334,7 +403,10 @@ function enemymove(){
 }
 
 function monsterdeath(){
-  
+  monster.pop()
+  mapload.combater = false
+  mapload.combats ++
+  gold += 15
 }
 
 function playerdeath(){
@@ -373,8 +445,8 @@ function fight_Buttons(){
 // start of characters We should move to diffrent file once done fully 
 class Knight { //character 1
   constructor() {
-    this.x = width / 2;
-    this.y = height / 2
+    this.x = width *0.17;
+    this.y = height *0.47
     this.silver = color("#9fa1a0")
     this.health = 110
     this.maxhealth = this.health
@@ -515,8 +587,8 @@ class Knight { //character 1
 }
 class Archer { //character 2
   constructor() {
-    this.x = width / 2;
-    this.y = height / 2
+    this.x = width *0.4;
+    this.y = height *0.47
     this.arrowx = this.x + 14; this.arrowy = this.y + 38
     this.health = 70;
     this.maxhealth = this.health
@@ -847,8 +919,8 @@ class Archer { //character 2
 class Wizard { // character 3
   // will create the wizard character
   constructor() {
-    this.x = width / 2;
-    this.y = height / 2
+    this.x = width *0.62;
+    this.y = height * 0.47
     this.fireballx = this.x + 75; this.firebally = this.y + 10
     this.iceballx = this.x + 57; this.icebally = this.y + 10
     this.blastx = this.x + 60; this.blasty = this.y + 10;
@@ -1004,8 +1076,8 @@ class Wizard { // character 3
 }
 class Assassin { // character 4 
   constructor() {
-    this.x = width / 2;
-    this.y = height / 2;
+    this.x = width *0.8;
+    this.y = height *0.47;
     this.health = 70;
     this.maxhealth = this.health
     this.healthbarst = -40
@@ -1371,7 +1443,7 @@ class MapFiller {
     this.bushx = width / 2
     this.bushy = height / 2
     this.mapnum = 0
-    this.combater = true
+    this.combater = false
     this.combats = 0
   }
 
@@ -1401,6 +1473,13 @@ class MapFiller {
     }
     }
   }
+
+  battlecheck(){
+    if((character.x < monsterslist[0].x - 15 && character.x > monsterslist[0].x +15) && (character.y < monsterslist[0].y - 15 && character.y > monsterslist[0].y +15)){
+      
+    }
+  }
+
   tree() {
     // your power is... greeeeeeeeeeeeeeeeeeeeen
     // and makes a tree
