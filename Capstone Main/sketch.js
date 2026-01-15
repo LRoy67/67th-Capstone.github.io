@@ -5,6 +5,7 @@
 // Global Varriables
 let character;
 let monster;
+let monsterslist = []
 let gold = 10
 let arrowcase = 0;
 let xshift;
@@ -23,13 +24,19 @@ let eneturn = false
 
 
 
+
+
+
+
+
+
 function setup() {
   createCanvas(543, 540);
   character = new Knight();
   // character = new Archer();
   // character = new Wizard();
   // character = new Assassin();
-
+  monsterslist.push(new Zombie())
   // monster = new Zombie();
   // monster = new Skeleton();
   // monster = new Ghost();
@@ -49,7 +56,7 @@ function draw(){
   }
 
   //fight_Buttons()
-  characterSelect()
+  // characterSelect()
 }
 
 function mousePressed(){
@@ -84,47 +91,60 @@ function starts(){
   rect(width*0.1,height/4,width*0.8,height/2)
   
   startButton();
+  titleText();
 }
 
 function startButton(){
   fill(0)
-  rect(width/2, height/2, 120, 60)
+  rect(width/2 - 60, height/2 + 55, 120, 60)
   fill(255)
-  text("START",width/2, height/2)
+  text("START",width/2, height/2 + 92.5)
+}
+
+function titleText(){
+  textAlign(CENTER);
+  textFont("OldEnglish");
+  text("Trogan Adventures", width/2, height/2);
 }
 
 function characterSelect(){
   textAlign(CENTER);
   fill(0)
-  rect(width/2 - 250, height/2 + 80, 100, 40)
+  rect(width/2 - 205, height/2 + 80, 90, 40)
   fill(255)
-  text("Knight", width/2 - 200, height/2 + 105.5);
+  text("Knight", width/2 - 160, height/2 + 105.5);
 
   
   fill(0)
-  rect(width/2 - 115, height/2 + 80, 100, 40)
+  rect(width/2 - 100, height/2 + 80, 90, 40)
   fill(255)
-  text("Archer", width/2 - 65, height/2 + 105.5);
+  text("Archer", width/2 - 55, height/2 + 105.5);
   
   
   fill(0)
-  rect(width/2 + 15, height/2 + 80, 100, 40)
+  rect(width/2 + 10, height/2 + 80, 90, 40)
   fill(255)
-  text("Wizard", width/2 + 65, height/2 + 105.5);
+  text("Wizard", width/2 + 55, height/2 + 105.5);
   
 
   fill(0)
-  rect(width/2 + 145, height/2 + 80, 100, 40)
+  rect(width/2 + 115, height/2 + 80, 90, 40)
   fill(255)
-  text("Assassin", width/2 + 195, height/2 + 105.5);
+  text("Assassin", width/2 + 160, height/2 + 105.5);
 }
 
 function game() {
   background(150);
   mapload.display()
+  for(let i of monsterslist){
+    i.display()
+  }
   // monster.display();
   // character.display();
   mainGUI()
+  if(monsterslist){
+  monsterhealthUI()
+  }
   if (keyIsDown(87)) {
     moveup()
   }
@@ -155,6 +175,19 @@ function healthUI(player){
   let healthval = map(player.health,0,player.maxhealth,0,80);
   rect(player.healthbarst,player.healthbarup,healthval,10)
   pop();
+}
+
+function monsterhealthUI(){
+  for(let ene of monsterslist){
+  push()
+  translate(ene.x,ene.y)
+  fill(190,10,10)
+  rect(ene.healthbarst,ene.healthbarup,80,10)
+  fill(10,190,10)
+  let healthval = map(ene.health,0,ene.maxhealth,0,80);
+  rect(ene.healthbarst,ene.healthbarup,healthval,10)
+  pop();
+  }
 }
 
 function moneyGUI(){
@@ -1058,12 +1091,17 @@ class Assassin { // character 4
 // end of characters
 
 
-
 // monsters start here
 class Zombie { // Monster 1 
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
+    this.health = 60
+    this.maxhealth = this.health
+    this.healthbarup = -50
+    this.healthbarst = -20
+    this.speed = 1.2
+    this.damage = 14
   }
   // will create the zombie
   display() {
@@ -1112,6 +1150,12 @@ class Skeleton{ // Monster 2
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
+    this.health = 50
+    this.maxhealth = this.health
+    this.healthbarup = -50
+    this.healthbarst = -20
+    this.speed = 0.9
+    this.damage = 27
   }
   // will create the skeleton
   display() {
@@ -1177,6 +1221,12 @@ class Ghost{ // Monster 3
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
+    this.health = 75
+    this.maxhealth = this.health
+    this.healthbarup = -50
+    this.healthbarst = -20
+    this.speed = 1.1
+    this.damage = 21
   }
   // will create the ghost
   display() {
@@ -1213,6 +1263,12 @@ class Boss { // Monster 1
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
+    this.health = 60
+    this.maxhealth = this.health
+    this.healthbarup = -50
+    this.healthbarst = -20
+    this.speed = 1.2
+    this.damage = 35
   }
   // will create the zombie
   display() {
@@ -1302,8 +1358,10 @@ class Boss { // Monster 1
     pop();
   }
 }
-
 // end of monsters
+
+
+
 
 // start of locations
 class MapFiller {
