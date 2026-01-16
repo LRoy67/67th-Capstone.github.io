@@ -6,7 +6,7 @@
 let character = [];
 let player;
 let monster;
-let monsterslist = []
+let monsterslist
 let gold = 10
 let arrowcase = 0;
 let xshift;
@@ -18,12 +18,17 @@ let gamer = false
 let upgrade = false
 let settings = false
 let move = 0
-let playerturn = false; let playermove = false
+let playerturn = true; let playermove = false
 let defender = false; let attacker = false; let run = false; let specialmove = false; let tunsincespecial = 0;
 let eneattacker = false; let enedefender = false;
 let eneturn = false
 let selector = false
 let customFont;
+let monsteralive = true
+let monsterX;
+let monsterY;
+let playercheck = true
+let bossmaper = false
 
 
 
@@ -34,7 +39,7 @@ async function setup() {
   character.push(new Wizard())
   character.push(new Assassin())
   customFont = await loadFont("assets/UM.ttf");
-  monsterslist.push(new Zombie())
+  monsterslist =new Zombie()
   // monster = new Zombie();
   // monster = new Skeleton();
   // monster = new Ghost();
@@ -42,7 +47,7 @@ async function setup() {
 
   mapload = new MapFiller();
   angleMode(DEGREES)
-  game()
+  background(17, 154, 50)
 }
 
 function draw(){
@@ -60,12 +65,11 @@ function draw(){
   // characterSelect()
 }
 
-
 function mousePressed(){
   if(gamer == false){
     if((mouseX >= width/2 - 60 && mouseY >=height/2 + 55) && (mouseX < (width/2 - 60)+120 && mouseY < (height/2 + 55) + 60)){
       gamer = true
-      game()
+      
     }
   }
   if(selector == false){
@@ -97,15 +101,23 @@ function mousePressed(){
   if(mapload.combater){
     if((mouseX >= width/2 - 250 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 250)+100 && mouseY < (height/2 + 160) + 40)){
       move = 1
+      playermove = true
+      playerturn = false
     }
     if((mouseX >= width/2 - 115 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 115)+100 && mouseY < (height/2 + 160) + 40)){
       move = 2
+      playermove = true
+      playerturn = false
     }
     if((mouseX >= width/2 + 15 && mouseY >=height/2 + 160) && (mouseX < ( width/2 + 15)+100 && mouseY < (height/2 + 160) + 40)){
       move = 3
+      playermove = true
+      playerturn = false
     }
     if((mouseX >= width/2 + 145 && mouseY >=height/2 + 160) && (mouseX < ( width/2 + 145)+100 && mouseY < (height/2 + 160) + 40)){
       move = 4
+      playermove = true
+      playerturn = false
     }
   }
   if(settings){
@@ -203,16 +215,19 @@ function characterSelect(){
 }
 
 function game() {
+  if(playercheck){
   background(150);
   mapload.display()
-  for(let i of monsterslist){
-    i.display()
+  battlecheck()
+  if(monsteralive){
+  monsterslist.display()
+  monsterhealthUI()
   }
   // monster.display();
   player.display()
   mainGUI()
+  if(mapload.combater == false){
   if(monsterslist){
-  monsterhealthUI()
   }
   if (keyIsDown(87)) {
     moveup()
@@ -226,9 +241,14 @@ function game() {
   if (keyIsDown(68)) {
     moveright()
   }
+  }
+  else{
+   fight()
+  }
+  }
 }
 function mainGUI(){
-  //  healthUI(character);
+   healthUI(player);
  moneyGUI()
  if(mapload.combater == false){
  mapGUI()
@@ -247,19 +267,20 @@ function healthUI(player){
 }
 
 function monsterhealthUI(){
-  for(let ene of monsterslist){
+  
   push()
-  translate(ene.x,ene.y)
+  translate(monsterslist.x,monsterslist.y)
   fill(190,10,10)
-  rect(ene.healthbarst,ene.healthbarup,80,10)
+  rect(monsterslist.healthbarst,monsterslist.healthbarup,80,10)
   fill(10,190,10)
-  let healthval = map(ene.health,0,ene.maxhealth,0,80);
-  rect(ene.healthbarst,ene.healthbarup,healthval,10)
+  let healthval = map(monsterslist.health,0,monsterslist.maxhealth,0,80);
+  rect(monsterslist.healthbarst,monsterslist.healthbarup,healthval,10)
   pop();
-  }
+  
 }
 
 function moneyGUI(){
+  goldcheck()
   fill("rgba(137, 81, 41,1)")
   rect(0,height - 40,100,40)
   fill("rgba(238, 203, 5, 0.99)");
@@ -270,6 +291,15 @@ function moneyGUI(){
   fill("rgba(238, 203, 5, 0.99)");
   textSize(20)
   text(gold,40,height-12)
+}
+
+function goldcheck(){
+  if(gold>= 20){
+    player.damage+= 20
+    player.health+= 40 
+    player.maxhealth += 40
+    gold -= 20
+  }
 }
 
 function mapGUI(){
@@ -310,15 +340,26 @@ function mapGUI(){
   pop()
 }
 
+function battlecheck(){
+  if((player.x > monsterslist.x - 40 && player.x < monsterslist.x +40) && (player.y > monsterslist.y - 40 && player.y < monsterslist.y +40)){
+    move = 0
+    mapload.combater = true
+    monsterslist.x = width*0.8
+    monsterslist.y = height/2
+    player.x = width/3
+    player.y = height/2
+  }
+}
 
 // Movement start
 function moveup() {
   if (player.y >= 20) {
     player.y -= player.speed * 4
-    if(player.mapnum < 3){
+    if(mapload.mapnum < 3){
     if(player.y < 20){
       mapload.mapnum ++
       player.y = height- 70
+      monsterload()
     }
   }
   }
@@ -340,10 +381,20 @@ function movedown() {
     if(player.y > height - 70){
       mapload.mapnum --
       player.y = 20
+      monsterload()
     }
-  }
+   }
   }
  
+}
+
+function monsterMovement(){
+  if(monster.x <= 9){
+    x = x+1;
+  }
+  if(monster.x >= 9){
+    x = x-1;
+  }
 }
 // Movement end
 
@@ -353,13 +404,18 @@ function movedown() {
 function fight(){
   if(playerturn){
     if(eneattacker && defender == false){
-      player.health - monster.damage
+      player.health -= monsterslist.damage
+      print("tester")
       if(player.health<0){
         playerdeath()
       }
       eneattacker = false
     }
-    fight_Buttons()
+    if(enedefender){
+      enedefender = false
+    }
+  move = 0
+  fight_Buttons()
   }
   else if(playermove){
     switch(move){
@@ -377,6 +433,16 @@ function fight(){
         break
     }
     playermove = false
+    if(run){
+      mapload.combater = false
+      monsterslist.health = monsterslist.maxhealth
+      move = 0
+      monsterslist.x = width/3
+      monsterslist.y = height/3
+      player.y = height*0.8
+      player.x = width * 0.5
+      run = false
+    }
   }
   else{
     enemymove()
@@ -386,31 +452,39 @@ function fight(){
 
 function enemymove(){
   if(attacker && enedefender == false){
-    monster.health - player.damage
-    if(monster.health <0){
+    monsterslist.health -= player.damage
+    if(monsterslist.health <0){
       monsterdeath()
     }
     attacker = false
   }
-  enemove = float(random(1,2))
+  if(defender){
+    defender = false
+  }
+  let enemove = int(random(1,3))
+  print(enemove)
   if(enemove == 1){
     eneattacker = true
   }
   else if(enemove == 2){
     enedefender = true
   }
-  playermove = true
+  playerturn = true
 }
 
 function monsterdeath(){
-  monster.pop()
+  monsteralive = false
+  monsterslist = ""
   mapload.combater = false
   mapload.combats ++
-  gold += 15
+  gold += 5
 }
 
 function playerdeath(){
-  
+  playercheck = false
+  background(255,10,10)
+  textAlign(CENTER)
+  text("You Died", width/2,height/2)
 }
 
 function fight_Buttons(){
@@ -430,7 +504,7 @@ function fight_Buttons(){
   fill(60, 255, 0)
   rect(width/2 + 15, height/2 + 160, 100, 40)
   fill(0)
-  text("Special", width/2 + 65, height/2 + 185.5);
+  text("N/A", width/2 + 65, height/2 + 185.5);
   
 
   fill(255)
@@ -440,7 +514,29 @@ function fight_Buttons(){
 }
 // Fighting end
 
+function monsterload(){
+  switch(mapload.mapnum){
+    case 0: 
+      monsterslist = new Zombie
+      monsteralive = true
+      break
+    case 1: 
+      monsterslist = new Skeleton
+      monsteralive = true
+      break
+    case 2: 
+      monsterslist = new Ghost
+      monsteralive = true
+      break
+    case 3: 
+      bossmaper = true
+      mapload.bossbattle = true
+      monsterslist = new Boss
+      monsteralive = true
+      break
 
+  }
+}
 
 // start of characters We should move to diffrent file once done fully 
 class Knight { //character 1
@@ -1298,7 +1394,7 @@ class Ghost{ // Monster 3
     this.healthbarup = -50
     this.healthbarst = -20
     this.speed = 1.1
-    this.damage = 21
+    this.damage = 30
   }
   // will create the ghost
   display() {
@@ -1335,12 +1431,12 @@ class Boss { // Monster 1
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
-    this.health = 60
+    this.health = 180
     this.maxhealth = this.health
     this.healthbarup = -50
     this.healthbarst = -20
     this.speed = 1.2
-    this.damage = 35
+    this.damage = 70
   }
   // will create the zombie
   display() {
@@ -1445,6 +1541,7 @@ class MapFiller {
     this.mapnum = 0
     this.combater = false
     this.combats = 0
+    this.bossbattle = false
   }
 
   display() {
@@ -1465,20 +1562,17 @@ class MapFiller {
     }
     }
     else{
-    if(this.combats == 0){
+    if(this.bossbattle == false){
       this.combat1()
     }
-    else if(this.combats == 2){
+    else if(this.bossbattle ){
+      
       this.bossmap()
     }
     }
   }
 
-  battlecheck(){
-    if((character.x < monsterslist[0].x - 15 && character.x > monsterslist[0].x +15) && (character.y < monsterslist[0].y - 15 && character.y > monsterslist[0].y +15)){
-      
-    }
-  }
+  
 
   tree() {
     // your power is... greeeeeeeeeeeeeeeeeeeeen
