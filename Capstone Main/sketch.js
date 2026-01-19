@@ -2,6 +2,7 @@
 // Logan and Troy
 // December 1, 2025
 
+
 // Global Varriables
 let character = [];
 let player;
@@ -29,6 +30,8 @@ let monsterX;
 let monsterY;
 let playercheck = true
 let bossmaper = false
+let wincon = false
+let winlevel = false
 
 
 
@@ -40,10 +43,7 @@ async function setup() {
   character.push(new Assassin())
   customFont = await loadFont("assets/UM.ttf");
   monsterslist =new Zombie()
-  // monster = new Zombie();
-  // monster = new Skeleton();
-  // monster = new Ghost();
-  // monster = new Boss();
+
 
   mapload = new MapFiller();
   angleMode(DEGREES)
@@ -56,20 +56,20 @@ function draw(){
   }
   else if(selector == false){
     characterSelect()
+    
   }
   else{
   game()
   }
 
-  //fight_Buttons()
-  // characterSelect()
+
 }
 
 function mousePressed(){
   if(gamer == false){
     if((mouseX >= width/2 - 60 && mouseY >=height/2 + 55) && (mouseX < (width/2 - 60)+120 && mouseY < (height/2 + 55) + 60)){
       gamer = true
-      
+    
     }
   }
   if(selector == false){
@@ -241,6 +241,11 @@ function game() {
   if (keyIsDown(68)) {
     moveright()
   }
+  }
+  else if(wincon){
+    fill(0,0,225)
+    rect(0,0,width,height)
+    text("You win",width/2,height/2)
   }
   else{
    fight()
@@ -479,6 +484,9 @@ function monsterdeath(){
   mapload.combater = false
   mapload.combats ++
   gold += 5
+  if(winlevel){
+    wincon = true
+  }
 }
 
 function playerdeath(){
@@ -1559,15 +1567,17 @@ class MapFiller {
           break
         case 3:
           this.mapend()
+      
           break
     }
     }
     else{
     if(this.bossbattle == false){
       this.combat1()
+      winlevel =false
     }
     else if(this.bossbattle ){
-      
+      winlevel =true
       this.bossmap()
     }
     }
