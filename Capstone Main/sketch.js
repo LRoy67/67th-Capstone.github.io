@@ -296,8 +296,9 @@ function moneyGUI(){
 function goldcheck(){
   if(gold>= 20){
     player.damage+= 20
-    player.health+= 40 
+    player.health = player.maxhealth
     player.maxhealth += 40
+    
     gold -= 20
   }
 }
@@ -1318,12 +1319,12 @@ class Skeleton{ // Monster 2
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
-    this.health = 50
+    this.health = 70
     this.maxhealth = this.health
     this.healthbarup = -50
     this.healthbarst = -20
     this.speed = 0.9
-    this.damage = 27
+    this.damage = 33
   }
   // will create the skeleton
   display() {
@@ -1389,12 +1390,12 @@ class Ghost{ // Monster 3
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
-    this.health = 75
+    this.health = 150
     this.maxhealth = this.health
     this.healthbarup = -50
     this.healthbarst = -20
     this.speed = 1.1
-    this.damage = 30
+    this.damage = 47
   }
   // will create the ghost
   display() {
@@ -1431,12 +1432,12 @@ class Boss { // Monster 1
   constructor() {
     this.x = width / 3;
     this.y = height / 3;
-    this.health = 180
+    this.health = 290
     this.maxhealth = this.health
     this.healthbarup = -50
     this.healthbarst = -20
     this.speed = 1.2
-    this.damage = 70
+    this.damage = 98
   }
   // will create the zombie
   display() {
