@@ -35,7 +35,7 @@ let winlevel = false
 
 
 
-async function setup() {
+async function setup() { // setup where we create the diffrent classes for the start sceen and first monster. 
   createCanvas(543, 540);
   character.push(new Knight());
   character.push(new Archer())
@@ -50,7 +50,7 @@ async function setup() {
   background(17, 154, 50)
 }
 
-function draw(){
+function draw(){  //Checks to see if the game has started or not. and selects the start screen if the user hans't started yet. 
   if(gamer == false){
     starts()
   }
@@ -72,7 +72,7 @@ function mousePressed(){
     
     }
   }
-  if(selector == false){
+  if(selector == false){  //This is for the character selector screen 
     if((mouseX >= width/2 - 205 && mouseY >=height/2 + 80) && (mouseX < (width/2 - 205)+90 && mouseY < (height/2 + 80) + 40)){
       player = new Knight()
       selector = true 
@@ -98,7 +98,7 @@ function mousePressed(){
       player.y = height *0.8
     }
   }
-  if(mapload.combater){
+  if(mapload.combater){ //Checks for a click on the combat buttons. 
     if((mouseX >= width/2 - 250 && mouseY >=height/2 + 160) && (mouseX < (width/2 - 250)+100 && mouseY < (height/2 + 160) + 40)){
       move = 1
       playermove = true
@@ -120,7 +120,7 @@ function mousePressed(){
       playerturn = false
     }
   }
-  if(settings){
+  if(settings){ //No implamented yet. 
 
   }
   if(upgrade){
@@ -128,7 +128,7 @@ function mousePressed(){
   }
 }
 
-function starts(){
+function starts(){ //start screen
   textAlign(CENTER);
   fill("rgb(226, 215, 53)")
   rect(width*0.1,height/4,width*0.8,height/2)
@@ -137,7 +137,7 @@ function starts(){
   titleText();
 }
 
-function startButton(){
+function startButton(){ //start button display
   push();
   fill(0)
   rect(width/2 - 60, height/2 + 55, 120, 60)
@@ -147,7 +147,7 @@ function startButton(){
   pop();
 }
 
-function titleText(){
+function titleText(){ //start screen text and effect
   push();
   fill(0)
   textSize(50)
@@ -183,7 +183,7 @@ function titleText(){
   pop();
 }
 
-function characterSelect(){
+function characterSelect(){ //character selection buttons 
   fill("rgb(226, 215, 53)")
   rect(width*0.1,height/4,width*0.8,height/2)
   for(let i of character){
@@ -214,7 +214,7 @@ function characterSelect(){
   text("Assassin", width/2 + 160, height/2 + 105.5);
 }
 
-function game() {
+function game() { //This loops the game code and only starts after the user pressed play. 
   if(playercheck){
   background(150);
   mapload.display()
@@ -229,7 +229,7 @@ function game() {
   if(mapload.combater == false){
   if(monsterslist){
   }
-  if (keyIsDown(87)) {
+  if (keyIsDown(87)) { //movement 
     moveup()
   }
   if (keyIsDown(65)) {
@@ -252,7 +252,7 @@ function game() {
   }
   }
 }
-function mainGUI(){
+function mainGUI(){ //function to call the UI's
    healthUI(player);
  moneyGUI()
  if(mapload.combater == false){
@@ -260,7 +260,7 @@ function mainGUI(){
  }
 }
 
-function healthUI(player){
+function healthUI(player){ //players health bar that is above the players head
   push()
   translate(player.x,player.y)
   fill(190,10,10)
@@ -271,7 +271,7 @@ function healthUI(player){
   pop();
 }
 
-function monsterhealthUI(){
+function monsterhealthUI(){ //monsters health bar
   
   push()
   translate(monsterslist.x,monsterslist.y)
@@ -284,7 +284,7 @@ function monsterhealthUI(){
   
 }
 
-function moneyGUI(){
+function moneyGUI(){ //money UI in bottom left
   goldcheck()
   fill("rgba(137, 81, 41,1)")
   rect(0,height - 40,100,40)
@@ -298,7 +298,7 @@ function moneyGUI(){
   text(gold,40,height-12)
 }
 
-function goldcheck(){
+function goldcheck(){ // checks how much gold the player has and uses that to upgrade automaticly(was ganna be a store but ran out of time)
   if(gold>= 20){
     player.damage+= 20
     player.health = player.maxhealth
@@ -308,7 +308,7 @@ function goldcheck(){
   }
 }
 
-function mapGUI(){
+function mapGUI(){ //Displays the mini map
   let mapsize = 140
   fill(0)
   rect(width- mapsize,height - mapsize,mapsize,mapsize)
@@ -346,7 +346,7 @@ function mapGUI(){
   pop()
 }
 
-function battlecheck(){
+function battlecheck(){ //checks if the player is touching an enemy and if so will start a battle
   if((player.x > monsterslist.x - 40 && player.x < monsterslist.x +40) && (player.y > monsterslist.y - 40 && player.y < monsterslist.y +40)){
     move = 0
     mapload.combater = true
@@ -395,11 +395,11 @@ function movedown() {
 }
 
 function monsterMovement(){
-  if(monster.x <= 9){
-    x = x+1;
+  if(momonsterslistnster.x <= 9){
+    monsterslist.x = monsterslist.x+1;
   }
-  if(monster.x >= 9){
-    x = x-1;
+  if(monsterslist.x >= 9){
+    monsterslist.x = monsterslist.x-1;
   }
 }
 // Movement end
@@ -409,7 +409,7 @@ function monsterMovement(){
 // Fighting start
 function fight(){
   if(playerturn){
-    if(eneattacker && defender == false){
+    if(eneattacker && defender == false){//check if the enemy attacked and if it did if the player defended
       player.health -= monsterslist.damage
       print("tester")
       if(player.health<0){
@@ -423,7 +423,7 @@ function fight(){
   move = 0
   fight_Buttons()
   }
-  else if(playermove){
+  else if(playermove){ //checks what the player chose
     switch(move){
       case 1:
         attacker = true
@@ -439,7 +439,7 @@ function fight(){
         break
     }
     playermove = false
-    if(run){
+    if(run){ //retreat code
       mapload.combater = false
       monsterslist.health = monsterslist.maxhealth
       move = 0
@@ -456,7 +456,7 @@ function fight(){
  
 }
 
-function enemymove(){
+function enemymove(){ //;enemys combat code so it fights back 
   if(attacker && enedefender == false){
     monsterslist.health -= player.damage
     if(monsterslist.health <0){
@@ -489,7 +489,7 @@ function monsterdeath(){
   }
 }
 
-function playerdeath(){
+function playerdeath(){ //player died code
   playercheck = false
   background(255,10,10)
   textAlign(CENTER)
@@ -523,7 +523,7 @@ function fight_Buttons(){
 }
 // Fighting end
 
-function monsterload(){
+function monsterload(){ //displays a monster depending on the map the player is on.
   switch(mapload.mapnum){
     case 0: 
       monsterslist = new Zombie
@@ -547,7 +547,7 @@ function monsterload(){
   }
 }
 
-// start of characters We should move to diffrent file once done fully 
+// start of characters 
 class Knight { //character 1
   constructor() {
     this.x = width *0.17;
@@ -1553,7 +1553,7 @@ class MapFiller {
     this.bossbattle = false
   }
 
-  display() {
+  display() { //displays map 
     if(this.combater == false){
       switch(this.mapnum){
         case 0:
